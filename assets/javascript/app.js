@@ -17,7 +17,6 @@ var request = function() {
 
 				//console.log(url);
 				console.log(response);
-				//console.log(character);
 
 		})
 
