@@ -3,7 +3,7 @@
 <head>
 
 	<!-- CSS - Materialize and anime -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
 	<title>Chrisflix</title>
@@ -20,39 +20,36 @@
 <body>
 
  <nav>
+
+   <ul id="dropdown1" class="dropdown-content">
+     <li><a href="#!">Action</a></li>
+     <li><a href="#!">Comedy</a></li>
+     <li><a href="#!">Drama</a></li>
+     <li><a href="#!">Horror</a></li>
+     <li><a href="#!">Romance</a></li>
+   </ul>
+
    <img class="brand-logo center chrisflix" src="assets/images/logo.png">
-   </div>
+
+    <ul class="right hide-on-med-and-down">
+      <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
+    </ul>
+
  </nav>
 
 <div class="container">
 
-<div class="row">
-
-  <div class="col s3">
-    <div class="fixed-action-btn horizontal click-to-toggle">
-      <a class="btn-floating btn-large red">
-        <i class="material-icons"></i>
-      </a>
-      <ul>
-        <li><a class="waves-effect waves-light btn"><i class="material-icons">Action</i></a></li>
-        <li><a class="waves-effect waves-light btn"><i class="material-icons">Comedy</i></a></li>
-        <li><a class="waves-effect waves-light btn"><i class="material-icons">Horror</i></a></li>
-        <li><a class="waves-effect waves-light btn"><i class="material-icons">Drama</i></a></li>
-      </ul>
-    </div>
-  </div>
-
-<div class="col s3">
  <div class="input-field nav-search center-align">
    <input id="search" type="search" required>
    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
  </div>
+
+<h5 class="center-align">Trending</h5>
+<div class="trending">
 </div>
 
-</div>
-
+<h5 class="center-align">Results</h5>
  <div class="results">
-
  </div>
 
 </div>
