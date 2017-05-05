@@ -1,20 +1,9 @@
+$(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+});
 
-	// $("").on("click", function() {
-
-		var title;
-	    var posterUrl;
-	    var year;
-	    var movieId;
-	    var description;
-	    var genre = [];
-	    var freeWebSources;
-	    var paidWebSources;
-	    var duration;
-	    var directors = [];
-	    var cast = [];
-	    var tags = [];
-	    var metascore;
-
+// -----------------------------------------------------------------------------------------------------
 		var limit = "5";
 		var castLimit = "10";
 		// var searchTerm = $(this).text();
@@ -32,22 +21,15 @@
 	          console.log(result);
 	          var data = result.results;
 
-	          title = data[0].original_title;
-	          posterUrl = data[0].poster_400x570;
-	          year =  data[0].release_year;
-	          movieId = data[0].id;
-	          imdbId = data[0].imdb;
-	          description = "";
-	          duration = "";
+	          for (var j=0; j<data.length; j++) {
 
-      		  genre = [];
-	          freeWebSources = [];
-	          paidWebSources = [];
-	          directors = [];
-	          cast = [];
-	          tags = [];
-	          
-	          	// for (var j=0; j<data.length; j++) {
+			          var title = data[j].original_title;
+			          var posterUrl = data[j].poster_400x570;
+			          var year =  data[j].release_year;
+			          var movieId = data[j].id;
+			          var imdbId = data[j].imdb;
+
+			          console.log(title, posterUrl, year, movieId, imdbId);
 			        
 	          				var urlId = "http://api-public.guidebox.com/v2/movies/" + movieId;
 					        $.ajax({
@@ -61,10 +43,7 @@
 
 						          description = result.overview;
 
-						          var genreArr = result.genres;
-							      	for (var i = 0; i < genreArr.length; i++) {
-							          	genre.push(genreArr[i].title);
-							        }
+						          genre = result.genres;
 
 							      // sources obj has display name, link, and source eg.
 									// display_name:"HBO (Via Amazon Prime)"
@@ -76,38 +55,42 @@
 
 						          // duration movie is in seconds
 						          duration = result.duration;
+						          cast = result.cast;
+							      tags = result.tags;
 
-						          var castArr = result.cast;
-						          	for (var i = 0; i < castLimit; i++) {
-							          	cast.push(castArr[i].name);
-							        }
-
-							      var tagsArr = result.tags;
-						          	for (var i = 0; i < tagsArr.length; i++) {
-							          	tags.push(tagsArr[i].tag);
-							        }
-
-									console.log("title: " + title); 
-						          console.log("year: " + year);
-						          console.log("posterUrl: " + posterUrl);
-						          console.log("movieId: " + movieId);
 						          console.log("description: " + description);
-						          console.log("genre: " + genre);
-						          console.log("tags: " + tags);
+						          console.log("genre: " + JSON.stringify(genre));
 						          console.log("freeWebSources: " + JSON.stringify(freeWebSources));
 						          console.log("paidWebSources: " + JSON.stringify(paidWebSources));
 						          console.log("duration (sec): " + duration);
-						          console.log("cast: " + cast + "...");
-						    //       console.log("-------------------------------------------------------------------------------------");
+						          
+						          // console.log("cast: " + JSON.stringify(cast) + "...");
+
+						              // omdb search function uing imdb id from guidebox
+										    $.ajax({
+										      url: "http://www.omdbapi.com/?",
+										      method: "GET",
+										      data: {
+										      		// imdb id for suicide squad taken from guidebox
+										        	"i": imdbId,
+										        }
+										    }).done(function(response) {
+										      // console.log(response);
+
+										      // score from metacritic
+										      metascore = response.Metascore;
+										      console.log("metascore: " + metascore);
+										      console.log("-------------------------------------------------------------------------------------");
+
+										    }); // closing outer ajax call done function
 
 					      	}); // closing inner ajax call done function
 
-				      
-
-				// } // closing for loop
+				} // closing for loop
 
       	}); // closing outer ajax call done function
 
+    // guidebox search function
       	var url = "http://api-public.guidebox.com/v2/search?";
         $.ajax({
 	        url: url,
@@ -122,20 +105,22 @@
         	console.log(result);
         }); // closing outer ajax call done function
 
-        var queryURL = "http://www.omdbapi.com/?";
-	    $.ajax({
-	      url: queryURL,
-	      method: "GET",
-	      data: {
-	      		// imdb id for suicide squad taken from guidebox
-	        	"i": "tt1386697",
-	        }
-	    }).done(function(response) {
-	      console.log(response);
+    // // omdb search function uing imdb id from guidebox
+	   //  $.ajax({
+	   //    url: "http://www.omdbapi.com/?",
+	   //    method: "GET",
+	   //    data: {
+	   //    		// imdb id for suicide squad taken from guidebox
+	   //      	"i": imdbId,
+	   //      }
+	   //  }).done(function(response) {
+	   //    // console.log(response);
 
-	      // score from metacritic
-	      metascore = response.Metascore;
+	   //    // score from metacritic
+	   //    metascore = response.Metascore;
+	   //    console.log("metascore: " + metascore);
+			 //  console.log("-------------------------------------------------------------------------------------");
 
-	    }); // closing outer ajax call done function
+	   //  }); // closing omdb ajax call done function
 
-	// });
+
