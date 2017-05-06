@@ -1,24 +1,131 @@
 $(document).ready(function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
-    // dynamically changes modal values depending on what movie is clicked
-    $(document).on("click", ".movieMenuDiv", function(){
-    	var title = $(this).data("title");
-    	var year = $(this).data("year");
-    	var posterUrl = $(this).data("posterurl");
-    	var genre = $(this).data("genre");
-    	var description = $(this).data("description");
-    	// var cast = $(this).data("title");
 
-    	$(".modal-movie-title").text(title);
-    	$(".modal-movie-year").text(year);
-    	$(".modal-movie-poster").attr("src", posterUrl);
-    	$(".modal-movie-genre").text(genre);
-    	$(".modal-movie-description").text(description);
-    });
-});
+  //   $(".validate").validate({
+  //       rules: {
+  //           first_name: {
+  //               required: true
+  //           },
+  //           last_name: {
+  //               required: true
+  //           },
+  //           password: {
+		// 		required: true,
+		// 		minlength: 5
+		// 	},
+		// 	cpassword: {
+		// 		required: true,
+		// 		minlength: 5,
+		// 		equalTo: "#password"
+		// 	},
+  //           email: {
+		// 		required: true,
+  //               email:true
+		// 	},
+		// },
+  //       //For custom messages
+  //       messages: {
+  //           first_name:{
+  //               required: "Enter a first name"
+  //           },
+  //           last_name:{
+  //           	required: "Enter a last name",
+  //               minlength: "Enter at least 5 characters"
+  //           },
+	 //        errorElement : 'div',
+	 //        errorPlacement: function(error, element) {
+	 //          var placement = $(element).data('error');
+	 //          if (placement) {
+	 //            $(placement).append(error)
+	 //          } else {
+	 //            error.insertAfter(element);
+	 //          }
+	 //       	}
+	 //      }
+	 //   	});
 
-// -----------------------------------------------------------------------------------------------------
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU",
+    authDomain: "movie-app-a7a97.firebaseapp.com",
+    databaseURL: "https://movie-app-a7a97.firebaseio.com",
+    projectId: "movie-app-a7a97",
+    storageBucket: "movie-app-a7a97.appspot.com",
+    messagingSenderId: "894283834871"
+  };
+  firebase.initializeApp(config);
+
+  // Create a variable to reference the database.
+  var db = firebase.database();
+
+	$('#register-submit').on("click", function(event) {
+		event.preventDefault();
+		alert("eyyy")
+		//userID = $("#user").val().trim();
+		var password = $("#password").val().trim();
+		var cpassword = $("#cpassword").val().trim();
+		var email = $("#email").val().trim();;
+
+		// console.log(password);
+		// console.log(cpassword);
+		// console.log(email);
+
+		firebase.auth().createUserWithEmailAndPassword(email, password)
+		.then(function(user) {
+			console.log("inside createUserWithEmailAndPassword");
+			// logUser(user);
+			$('#modal-register').modal('close');
+		})
+		.catch(function(err) {
+			var errorCode = err.code;
+  			var errorMessage = err.message;
+
+  			// add error handling for (existing user, pw < 4 and pw comparison)
+			console.log("Data not saved " + errorCode + errorMessage);	
+		})
+	});
+	//firebase.auth().curentUser to get current user info
+	
+	$('#login-submit').on("click", function(event) { 
+		event.preventDefault();
+		var password = $("#login-password").val().trim();
+		var email = $("#login-email").val().trim();
+		firebase.auth().signInWithEmailAndPassword(email, password)
+		.then(function(user) {
+			console.log(user);
+			$('#modal-login').modal('close');	
+		})
+		.catch(function(err) {
+			console.error(err);
+		})
+	});
+	// function logUser(user) {
+ //    var ref = firebase.database().ref("users");
+ //    var obj = {
+ //        "user": user,
+ //        ...
+ //    };
+ //    ref.push(obj); // or however you wish to update the node
+// }
+
+
+	// $("").on("click", function() {
+
+		var title;
+	    var posterUrl;
+	    var year;
+	    var movieId;
+	    var description;
+	    var genre = [];
+	    var freeWebSources;
+	    var paidWebSources;
+	    var duration;
+	    var directors = [];
+	    var cast = [];
+	    var tags = [];
+	    var metascore;
+
 		var limit = "5";
 		var castLimit = "10";
 		// var searchTerm = $(this).text();
@@ -36,19 +143,25 @@ $(document).ready(function(){
 	          console.log(result);
 	          var data = result.results;
 
-	          for (var j=0; j<data.length; j++) {
+	          title = data[0].original_title;
+	          posterUrl = data[0].poster_400x570;
+	          year =  data[0].release_year;
+	          movieId = data[0].id;
+	          imdbId = data[0].imdb;
+	          description = "";
+	          duration = "";
 
-			          var title = data[j].original_title;
-			          var posterUrl = data[j].poster_400x570;
-			          var year =  data[j].release_year;
-			          var movieId = data[j].id;
-			          var imdbId = data[j].imdb;
-
-			          console.log(title, posterUrl, year, movieId, imdbId);
+      		  genre = [];
+	          freeWebSources = [];
+	          paidWebSources = [];
+	          directors = [];
+	          cast = [];
+	          tags = [];
+	          
+	          	// for (var j=0; j<data.length; j++) {
 			        
 	          				var urlId = "http://api-public.guidebox.com/v2/movies/" + movieId;
 					        $.ajax({
-					        	async: false,
 						        url: urlId,
 						        method: 'GET',
 						        data: {
@@ -59,7 +172,10 @@ $(document).ready(function(){
 
 						          description = result.overview;
 
-						          genre = result.genres;
+						          var genreArr = result.genres;
+							      	for (var i = 0; i < genreArr.length; i++) {
+							          	genre.push(genreArr[i].title);
+							        }
 
 							      // sources obj has display name, link, and source eg.
 									// display_name:"HBO (Via Amazon Prime)"
@@ -71,78 +187,38 @@ $(document).ready(function(){
 
 						          // duration movie is in seconds
 						          duration = result.duration;
-						          cast = result.cast;
-							      tags = result.tags;
 
+						          var castArr = result.cast;
+						          	for (var i = 0; i < castLimit; i++) {
+							          	cast.push(castArr[i].name);
+							        }
+
+							      var tagsArr = result.tags;
+						          	for (var i = 0; i < tagsArr.length; i++) {
+							          	tags.push(tagsArr[i].tag);
+							        }
+
+									console.log("title: " + title); 
+						          console.log("year: " + year);
+						          console.log("posterUrl: " + posterUrl);
+						          console.log("movieId: " + movieId);
 						          console.log("description: " + description);
-						          console.log("genre: " + JSON.stringify(genre));
+						          console.log("genre: " + genre);
+						          console.log("tags: " + tags);
 						          console.log("freeWebSources: " + JSON.stringify(freeWebSources));
 						          console.log("paidWebSources: " + JSON.stringify(paidWebSources));
 						          console.log("duration (sec): " + duration);
-						          
-						          // console.log("cast: " + JSON.stringify(cast) + "...");
-
-						              // omdb search function uing imdb id from guidebox
-										    $.ajax({
-										      async: false,
-										      url: "http://www.omdbapi.com/?",
-										      method: "GET",
-										      data: {
-										      		// imdb id for suicide squad taken from guidebox
-										        	"i": imdbId,
-										        }
-										    }).done(function(response) {
-										      // console.log(response);
-
-										      // score from metacritic
-										      metascore = response.Metascore;
-										      console.log("metascore: " + metascore);
-										      console.log("-------------------------------------------------------------------------------------");
-
-										      // Extract genres from genreArray
-										      var genreArr = [];
-										      for (var i=0; i<genre.length; i++) {
-										      	genreArr.push(genre[i].title);
-										      }
-
-										      // Build html and append if there are actually free/subscription sources
-
-										      if (paidWebSources.length > 0 || freeWebSources.length > 0) {
-											      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(".recommendedResults");
-											      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.toString()).attr("data-description", description);
-											      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
-											      
-											      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl);
-											      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
-											      
-
-											      var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
-											      
-											      // Viewing Sources
-											      var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
-											      var newNetflixLinkLogo = $("<a>").attr("href", "#").appendTo(newMovieSourceDiv);
-											      	$("<img>").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
-											      var newAmazonLinkLogo = $("<a>").attr("href", "#").appendTo(newMovieSourceDiv);
-											      	$("<img>").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
-											      var newHuluLinkLogo = $("<a>").attr("href", "#").appendTo(newMovieSourceDiv);
-											      	$("<img>").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
-
-											      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
-											      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
-											      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
-
-											      
-										  	  }
-
-										    }); // closing outer ajax call done function
+						          console.log("cast: " + cast + "...");
+						    //       console.log("-------------------------------------------------------------------------------------");
 
 					      	}); // closing inner ajax call done function
 
-				} // closing for loop
+				      
+
+				// } // closing for loop
 
       	}); // closing outer ajax call done function
 
-    // guidebox search function
       	var url = "http://api-public.guidebox.com/v2/search?";
         $.ajax({
 	        url: url,
@@ -157,22 +233,21 @@ $(document).ready(function(){
         	console.log(result);
         }); // closing outer ajax call done function
 
-    // // omdb search function uing imdb id from guidebox
-	   //  $.ajax({
-	   //    url: "http://www.omdbapi.com/?",
-	   //    method: "GET",
-	   //    data: {
-	   //    		// imdb id for suicide squad taken from guidebox
-	   //      	"i": imdbId,
-	   //      }
-	   //  }).done(function(response) {
-	   //    // console.log(response);
+        var queryURL = "http://www.omdbapi.com/?";
+	    $.ajax({
+	      url: queryURL,
+	      method: "GET",
+	      data: {
+	      		// imdb id for suicide squad taken from guidebox
+	        	"i": "tt1386697",
+	        }
+	    }).done(function(response) {
+	      console.log(response);
 
-	   //    // score from metacritic
-	   //    metascore = response.Metascore;
-	   //    console.log("metascore: " + metascore);
-			 //  console.log("-------------------------------------------------------------------------------------");
+	      // score from metacritic
+	      metascore = response.Metascore;
 
-	   //  }); // closing omdb ajax call done function
+	    }); // closing outer ajax call done function
 
-
+	// });
+});
