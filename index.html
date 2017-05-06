@@ -1,109 +1,163 @@
+<!-- Master -->
+
 <!DOCTYPE html>
 <html>
+
 <head>
     <!-- CSS - Materialize and anime -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Chrisflix</title>
-    
 </head>
+
 <body>
- <nav>
-<!-- Navbar, Login, logo and Genre sorter -->
-   <ul id="nav-mobile" class="left hide-on-med-and-down">
-     <li><a href="#">Login</a></li>
-   </ul>
-   <ul id="dropdown1" class="dropdown-content">
-     <li><a href="#!">Action</a></li>
-     <li><a href="#!">Animated</a></li>
-     <li><a href="#!">Comedy</a></li>
-     <li><a href="#!">Drama</a></li>
-     <li><a href="#!">Fantasy</a></li>
-     <li><a href="#!">Horror</a></li>
-     <li><a href="#!">Romance</a></li>
-     <li><a href="#!">Sci-Fi</a></li>
-   </ul>
-   <img class="brand-logo center chrisflix" src="assets/images/logo.png">
-    <ul class="right hide-on-med-and-down">
-      <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
-    </ul>
- </nav>
- 
-<div class="container">
-
- <div class="row">
-  <div class="col s10">
-   <div class="input-field nav-search center-align">
-    <input id="search" type="search" placeholder="search" required>
-     <label class="label-icon" for="search"><i class="material-icons"></i></label>
+    <nav>
+        <!-- Navbar, Login, logo and Genre sorter -->
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a class="waves-effect waves-light" href="#modal-register">Registration</a>
+            </li>
+        </ul>
+        <!-- Sign-In Modal Form -->
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a>
+            </li>
+        </ul>
+        <ul id="dropdown1" class="dropdown-content">
+            <li><a href="#!">Action</a></li>
+            <li><a href="#!">Animated</a></li>
+            <li><a href="#!">Comedy</a></li>
+            <li><a href="#!">Drama</a></li>
+            <li><a href="#!">Fantasy</a></li>
+            <li><a href="#!">Horror</a></li>
+            <li><a href="#!">Romance</a></li>
+            <li><a href="#!">Sci-Fi</a></li>
+        </ul>
+        <img class="brand-logo center chrisflix" src="assets/images/logo.png">
+        <ul class="right hide-on-med-and-down">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col s10">
+                <div class="input-field nav-search center-align">
+                    <input id="search" type="search" placeholder="search" required>
+                    <label class="label-icon" for="search"><i class="material-icons"></i></label>
+                </div>
+            </div>
+            <div class="col s2">
+                <button class="btn waves-effect waves-light searchbtn" type="search" name="action">Word
+                    <i class="material-icons right"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Results appended here -->
+        <h5 class="center-align">Results</h5>
+        <div class="searchResults">
+            <div class="movieMenuDiv">
+                <!-- Modal Trigger -->
+                <a class="waves-effect waves-light" href="#modal1"><img class="moviePoster" src=http://static-api.guidebox.com/111615/thumbnails_movies_medium/137176-7158916946-4013497001-6251401533-medium-240x342-alt-.jpg></a>
+                <!-- Subscription Sources -->
+                <div class="movie-info">
+                    <div class="movie-sources">
+                        <img src="assets/images/netflix.png">
+                        <img src="assets/images/amazon.png">
+                        <img src="assets/images/hulu.png">
+                    </div>
+                    <p class="movie-title">Movie Title</p>
+                    <p class="movie-year">year placeholder</p>
+                    <p class="movie-genre">genre placeholder</p>
+                </div>
+            </div>
+        </div>
+        <h5 class="center-align">Recommended</h5>
+        <div class="recommendedResults">
+        </div>
     </div>
-  </div>
-
-  <div class="col s2">
-   <button class="btn waves-effect waves-light searchbtn" type="search" name="action">Word
-    <i class="material-icons right"></i>
-   </button>
-  </div>
- </div>
-
-<!-- Results appended here -->
-  <h5 class="center-align">Results</h5>
-  <div class="searchResults">
-
-
-    <div class="movieMenuDiv">
-       <!-- Modal Trigger -->
-         <a class="waves-effect waves-light" href="#modal1"><img class="moviePoster" src=http://static-api.guidebox.com/111615/thumbnails_movies_medium/137176-7158916946-4013497001-6251401533-medium-240x342-alt-.jpg></a>
-         <!-- Subscription Sources -->
-         <div class="movie-info">
-           <div class="movie-sources">
-              <img src="assets/images/netflix.png">
-              <img src="assets/images/amazon.png">
-              <img src="assets/images/hulu.png">
-           </div>
-           <p class="movie-title">Movie Title</p>
-           <p class="movie-year">year placeholder</p>
-           <p class="movie-genre">genre placeholder</p>
-         </div>
-      
-    </div>
-  </div>
-
-  <h5 class="center-align">Recommended</h5>
-   <div class="recommendedResults">
-   </div>
-
-</div> <!-- Close Container -->
-
-       <!-- Modal Structure -->
-        <div id="modal1" class="modal">
-          <div class="modal-content">
+    <!-- Close Container -->
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
             <img class="modal-movie-poster">
             <h4 class="modal-movie-title">Movie Title</h4>
             <p class="modal-movie-year">20XX</p>
             <p class="modal-movie-genre">Genre Placeholder</p>
             <p class="modal-movie-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             <p id="modal-movie-stars">Starring:</p>
-            
             <!-- Subscription Sources -->
             <div class="modal-movie-sources">
               <a href="#"><img src="assets/images/netflix.png"></a>
               <a href="#"><img src="assets/images/amazon.png"></a>
               <a href="#"><img src="assets/images/hulu.png"></a>
             </div>
-          </div>
-          <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-          </div>
         </div>
-        <!-- End of Modal Structure -->
-
-
-<!-- Jquery and firebase -->
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
-  <script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
-  <script type="text/javascript" src="assets/javascript/app.js"></script>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+    
+    <div id="modal-register" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="email" type="email" class="validate">
+                                <label for="email">E-Mail</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="password" type="password" class="validate">
+                                <label for="password">Password</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="cpassword" type="password" class="validate">
+                                <label for="cpassword">Confirm Password</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="waves-effect waves-light btn" type="submit" id="register-submit">Register!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal-login" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="login-email" type="email" class="validate">
+                                <label for="email">E-Mail</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="login-password" type="password" class="validate">
+                                <label for="password">Password</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="waves-effect waves-light btn" type="submit" id="login-submit">Login!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End of Modal Structure -->
+    <!-- Jquery and firebase -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
 </body>
+
 </html>
