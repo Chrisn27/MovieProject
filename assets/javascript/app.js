@@ -1,6 +1,12 @@
 $(document).ready(function(){
+
+	// global variables
+	var limit = "5";
+	var castLimit = "10";
+
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
+
     // dynamically changes modal values depending on what movie is clicked
     $(document).on("click", ".movieMenuDiv", function(){
     	var title = $(this).data("title");
@@ -16,27 +22,83 @@ $(document).ready(function(){
     	$(".modal-movie-genre").text(genre);
     	$(".modal-movie-description").text(description);
     });
-});
+
+
+
+    // appends items to results div after search term and re-populates recommended results
+    $(".searchbtn").on("click", function(){
+	    	var searchTerm = $("#search").val();
+	    	$("#search").val("");
+	    	$(".searchResults").empty();
+	    	$(".recommendedResults").empty();
+
+	    	// guidebox search ajax call and build function
+	      	var url = "http://api-public.guidebox.com/v2/search?";
+	        $.ajax({
+		        url: url,
+		        method: 'GET',
+		        data: {
+		        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+		          	"type": "movie",
+		          	"field": "title",
+		          	"query": searchTerm,
+		        }
+	        }).done(function(result) {
+	        	console.log(result);
+		        var data = result.results;
+		        var location = ".searchResults"
+
+		        // build html function
+		        buildMovieMenuItem(data, location);
+
+	        }); // closing outer ajax call done function
+
+
+	        var url = "http://api-public.guidebox.com/v2/movies/";
+	        $.ajax({
+		        url: url,
+		        method: 'GET',
+		        data: {
+		        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+		          	"limit": limit,
+		          	// "offset" : 250,
+		        }
+	        }).done(function(result) {
+		          console.log(result);
+		          var data = result.results;
+		          var location = ".recommendedResults"
+		          buildMovieMenuItem(data,location);
+	      	}); // closing outer ajax call done function
+
+    }) // closes search button function
+}) // closes document.ready function
 
 // -----------------------------------------------------------------------------------------------------
-		var limit = "5";
-		var castLimit = "10";
-		// var searchTerm = $(this).text();
+		
+var buildInitialRecommendedResults = function() {
+	var url = "http://api-public.guidebox.com/v2/movies/";
+	        $.ajax({
+		        url: url,
+		        method: 'GET',
+		        data: {
+		        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+		          	"limit": limit,
+		          	// "offset" : 250,
+		        }
+	        }).done(function(result) {
+		          console.log(result);
+		          var data = result.results;
+		          var location = ".recommendedResults"
+		          buildMovieMenuItem(data,location);
+	      	}); // closing outer ajax call done function
+} // closes buildInitialRecommendedResults	
 
-		var url = "http://api-public.guidebox.com/v2/movies/";
-        $.ajax({
-	        url: url,
-	        method: 'GET',
-	        data: {
-	        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
-	          	"limit": limit,
-	          	// "offset" : 250,
-	        }
-        }).done(function(result) {
-	          console.log(result);
-	          var data = result.results;
 
-	          for (var j=0; j<data.length; j++) {
+
+		
+
+var buildMovieMenuItem = function(data, location) {
+	for (var j=0; j<data.length; j++) {
 
 			          var title = data[j].original_title;
 			          var posterUrl = data[j].poster_400x570;
@@ -44,8 +106,6 @@ $(document).ready(function(){
 			          var movieId = data[j].id;
 			          var imdbId = data[j].imdb;
 
-			          console.log(title, posterUrl, year, movieId, imdbId);
-			        
 	          				var urlId = "http://api-public.guidebox.com/v2/movies/" + movieId;
 					        $.ajax({
 					        	async: false,
@@ -108,7 +168,7 @@ $(document).ready(function(){
 										      // Build html and append if there are actually free/subscription sources
 
 										      if (paidWebSources.length > 0 || freeWebSources.length > 0) {
-											      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(".recommendedResults");
+											      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
 											      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.toString()).attr("data-description", description);
 											      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
 											      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
@@ -137,23 +197,8 @@ $(document).ready(function(){
 					      	}); // closing inner ajax call done function
 
 				} // closing for loop
-
-      	}); // closing outer ajax call done function
-
-    // guidebox search function
-      	var url = "http://api-public.guidebox.com/v2/search?";
-        $.ajax({
-	        url: url,
-	        method: 'GET',
-	        data: {
-	        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
-	          	"type": "movie",
-	          	"field": "title",
-	          	"query": "terminator",
-	        }
-        }).done(function(result) {
-        	console.log(result);
-        }); // closing outer ajax call done function
+} // closing buildMovieMenuItem function
+    
 
     // // omdb search function uing imdb id from guidebox
 	   //  $.ajax({
