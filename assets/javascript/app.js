@@ -171,9 +171,10 @@ var buildMovieMenuItem = function(data, location) {
 											      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
 											      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.toString()).attr("data-description", description);
 											      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
+											      									      
 											      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
 											      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
-
+											      
 											      var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
 											      
 											      // Viewing Sources
