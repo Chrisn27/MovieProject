@@ -1,6 +1,21 @@
 $(document).ready(function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
+    // dynamically changes modal values depending on what movie is clicked
+    $(document).on("click", ".movieMenuDiv", function(){
+    	var title = $(this).data("title");
+    	var year = $(this).data("year");
+    	var posterUrl = $(this).data("posterurl");
+    	var genre = $(this).data("genre");
+    	var description = $(this).data("description");
+    	// var cast = $(this).data("title");
+
+    	$(".modal-movie-title").text(title);
+    	$(".modal-movie-year").text(year);
+    	$(".modal-movie-poster").attr("src", posterUrl);
+    	$(".modal-movie-genre").text(genre);
+    	$(".modal-movie-description").text(description);
+    });
 });
 
 // -----------------------------------------------------------------------------------------------------
@@ -33,6 +48,7 @@ $(document).ready(function(){
 			        
 	          				var urlId = "http://api-public.guidebox.com/v2/movies/" + movieId;
 					        $.ajax({
+					        	async: false,
 						        url: urlId,
 						        method: 'GET',
 						        data: {
@@ -68,6 +84,7 @@ $(document).ready(function(){
 
 						              // omdb search function uing imdb id from guidebox
 										    $.ajax({
+										      async: false,
 										      url: "http://www.omdbapi.com/?",
 										      method: "GET",
 										      data: {
@@ -81,6 +98,39 @@ $(document).ready(function(){
 										      metascore = response.Metascore;
 										      console.log("metascore: " + metascore);
 										      console.log("-------------------------------------------------------------------------------------");
+
+										      // Extract genres from genreArray
+										      var genreArr = [];
+										      for (var i=0; i<genre.length; i++) {
+										      	genreArr.push(genre[i].title);
+										      }
+
+										      // Build html and append if there are actually free/subscription sources
+
+										      if (paidWebSources.length > 0 || freeWebSources.length > 0) {
+											      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(".recommendedResults");
+											      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.toString()).attr("data-description", description);
+											      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
+											      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
+											      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
+
+											      var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
+											      
+											      // Viewing Sources
+											      var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
+											      var newNetflixLinkLogo = $("<a>").attr("href", "#").appendTo(newMovieSourceDiv);
+											      	$("<img>").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
+											      var newAmazonLinkLogo = $("<a>").attr("href", "#").appendTo(newMovieSourceDiv);
+											      	$("<img>").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
+											      var newHuluLinkLogo = $("<a>").attr("href", "#").appendTo(newMovieSourceDiv);
+											      	$("<img>").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
+
+											      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+											      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+											      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
+
+											      
+										  	  }
 
 										    }); // closing outer ajax call done function
 
