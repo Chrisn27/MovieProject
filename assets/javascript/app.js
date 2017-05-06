@@ -6,7 +6,6 @@ $(document).ready(function(){
 
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
-<<<<<<< HEAD
 
   //   $(".validate").validate({
   //       rules: {
@@ -90,8 +89,12 @@ $(document).ready(function(){
   			// add error handling for (existing user, pw < 4 and pw comparison)
 			console.log("Data not saved " + errorCode + errorMessage);	
 		})
-	});
-	//firebase.auth().curentUser to get current user info
+
+	// });
+	// //firebase.auth().curentUser to get current user info
+	// ((function){
+
+	// })();
 	
 	$('#login-submit').on("click", function(event) { 
 		event.preventDefault();
@@ -106,15 +109,6 @@ $(document).ready(function(){
 			console.error(err);
 		})
 	});
-	// function logUser(user) {
- //    var ref = firebase.database().ref("users");
- //    var obj = {
- //        "user": user,
- //        ...
- //    };
- //    ref.push(obj); // or however you wish to update the node
-// }
-
 
 	// $("").on("click", function() {
 
@@ -165,8 +159,6 @@ $(document).ready(function(){
 	          tags = [];
 	          
 	          	// for (var j=0; j<data.length; j++) {
-			        
-=======
 
     // dynamically changes modal values depending on what movie is clicked
     $(document).on("click", ".movieMenuDiv", function(){
@@ -183,8 +175,6 @@ $(document).ready(function(){
     	$(".modal-movie-genre").text(genre);
     	$(".modal-movie-description").text(description);
     });
-
-
 
     // appends items to results div after search term and re-populates recommended results
     $(".searchbtn").on("click", function(){
@@ -253,10 +243,6 @@ var buildInitialRecommendedResults = function() {
 		          buildMovieMenuItem(data,location);
 	      	}); // closing outer ajax call done function
 } // closes buildInitialRecommendedResults	
-
-
-
-		
 
 var buildMovieMenuItem = function(data, location) {
 	for (var j=0; j<data.length; j++) {
