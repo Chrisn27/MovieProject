@@ -1,12 +1,5 @@
 $(document).ready(function(){
 
-	// global variables
-	var limit = "5";
-	var castLimit = "10";
-
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU",
