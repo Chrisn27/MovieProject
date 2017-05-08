@@ -1,5 +1,48 @@
 $(document).ready(function(){
 
+  //   $(".validate").validate({
+  //       rules: {
+  //           first_name: {
+  //               required: true
+  //           },
+  //           last_name: {
+  //               required: true
+  //           },
+  //           password: {
+		// 		required: true,
+		// 		minlength: 5
+		// 	},
+		// 	cpassword: {
+		// 		required: true,
+		// 		minlength: 5,
+		// 		equalTo: "#password"
+		// 	},
+  //           email: {
+		// 		required: true,
+  //               email:true
+		// 	},
+		// },
+  //       //For custom messages
+  //       messages: {
+  //           first_name:{
+  //               required: "Enter a first name"
+  //           },
+  //           last_name:{
+  //           	required: "Enter a last name",
+  //               minlength: "Enter at least 5 characters"
+  //           },
+	 //        errorElement : 'div',
+	 //        errorPlacement: function(error, element) {
+	 //          var placement = $(element).data('error');
+	 //          if (placement) {
+	 //            $(placement).append(error)
+	 //          } else {
+	 //            error.insertAfter(element);
+	 //          }
+	 //       	}
+	 //      }
+	 //   	});
+
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU",
@@ -39,8 +82,13 @@ $(document).ready(function(){
   			// add error handling for (existing user, pw < 4 and pw comparison)
 			console.log("Data not saved " + errorCode + errorMessage);	
 		})
+
 	});
-	//firebase.auth().curentUser to get current user info
+	
+	// //firebase.auth().curentUser to get current user info
+	// ((function){
+
+	// })();
 	
 	$('#login-submit').on("click", function(event) { 
 		event.preventDefault();
@@ -56,14 +104,12 @@ $(document).ready(function(){
 		})
 	});
 
-// ------------------------------------------------------------------------
-
 	// global variables
 	var limit = "5";
 	var castLimit = "10";
 
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
+    //$('.modal').modal();
 
     var buildInitialRecommendedResults = function() {
 		var url = "http://api-public.guidebox.com/v2/movies/";
@@ -84,6 +130,7 @@ $(document).ready(function(){
 	} // closes buildInitialRecommendedResults
 
 	var buildMovieMenuItem = function(data, location) {
+
 	for (var j=0; j<data.length; j++) {
 
 			          var title = data[j].original_title;
