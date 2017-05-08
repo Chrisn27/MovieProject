@@ -1,55 +1,5 @@
 $(document).ready(function(){
 
-	// global variables
-	var limit = "5";
-	var castLimit = "10";
-
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-
-  //   $(".validate").validate({
-  //       rules: {
-  //           first_name: {
-  //               required: true
-  //           },
-  //           last_name: {
-  //               required: true
-  //           },
-  //           password: {
-		// 		required: true,
-		// 		minlength: 5
-		// 	},
-		// 	cpassword: {
-		// 		required: true,
-		// 		minlength: 5,
-		// 		equalTo: "#password"
-		// 	},
-  //           email: {
-		// 		required: true,
-  //               email:true
-		// 	},
-		// },
-  //       //For custom messages
-  //       messages: {
-  //           first_name:{
-  //               required: "Enter a first name"
-  //           },
-  //           last_name:{
-  //           	required: "Enter a last name",
-  //               minlength: "Enter at least 5 characters"
-  //           },
-	 //        errorElement : 'div',
-	 //        errorPlacement: function(error, element) {
-	 //          var placement = $(element).data('error');
-	 //          if (placement) {
-	 //            $(placement).append(error)
-	 //          } else {
-	 //            error.insertAfter(element);
-	 //          }
-	 //       	}
-	 //      }
-	 //   	});
-
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU",
@@ -111,12 +61,15 @@ $(document).ready(function(){
 		})
 	});
 
+//--------------------------------------------------------------------
+
 	// global variables
 	var limit = "5";
 	var castLimit = "10";
+	var userGenrePref = [];
 
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    //$('.modal').modal();
+    $('.modal').modal();
 
     var buildInitialRecommendedResults = function() {
 		var url = "http://api-public.guidebox.com/v2/movies/";
@@ -171,7 +124,14 @@ $(document).ready(function(){
 
 						          // duration movie is in seconds
 						          duration = result.duration;
+
+						          // extract cast names from cast result array
 						          cast = result.cast;
+						          var castArr = [];
+						          	for (var i=0; i<castLimit; i++) {
+						          		castArr.push(cast[i].name)
+						          	}
+
 							      tags = result.tags;
 
 						          console.log("description: " + description);
@@ -209,8 +169,10 @@ $(document).ready(function(){
 
 										      if (paidWebSources.length > 0 || freeWebSources.length > 0) {
 											      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
-											      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.toString()).attr("data-description", description);
+											      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
 											      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
+											      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
+											      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources))
 											      									      
 											      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
 											      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
@@ -219,6 +181,12 @@ $(document).ready(function(){
 											      
 											      // Viewing Sources
 											      var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
+
+											      for (var i=0; i<freeWebSources.length; i++) {
+			
+													      var newFreeLinkLogo = $("<a>").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
+													      $("<img>").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
+	  											  }
 
 											      for (var i=0; i<paidWebSources.length; i++) {
 													      
@@ -239,9 +207,9 @@ $(document).ready(function(){
 
 												  }
 
-													      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
-													      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
-													      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
+													      // var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+													      // var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+													      // var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
 											      
 											      
 										  	  }
@@ -256,19 +224,33 @@ $(document).ready(function(){
 
     // dynamically changes modal values depending on what movie is clicked
     $(document).on("click", ".movieMenuDiv", function(){
+
     	var title = $(this).data("title");
     	var year = $(this).data("year");
     	var posterUrl = $(this).data("posterurl");
     	var genre = $(this).data("genre");
     	var description = $(this).data("description");
-    	var paidWebSources = ($(this).data("subscriptionsources"))
-    	// var cast = $(this).data("title");
+    	var paidWebSources = ($(this).data("subscriptionsources"));
+    	var cast = $(this).data("cast");
+    	var metascore = $(this).data("metascore");
+    	var paidWebSources = $(this).data("subwebsources");
+    	var freeWebSources = $(this).data("freewebsources");
 
     	$(".modal-movie-title").text(title);
     	$(".modal-movie-year").text(year);
     	$(".modal-movie-poster").attr("src", posterUrl);
     	$(".modal-movie-genre").text(genre);
     	$(".modal-movie-description").text(description);
+    	$("#modal-movie-stars").text("Cast: " + cast + "...");
+    	$("#modal-metascore").text("Metascore: " + metascore);
+
+		$(".modal-movie-sources").empty();
+
+    	for (var i=0; i<freeWebSources.length; i++) {
+			
+		      var newFreeLinkLogo = $("<a>").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
+	  	}
 
     	for (var i=0; i<paidWebSources.length; i++) {
 													      
@@ -343,29 +325,3 @@ $(document).ready(function(){
 
 // -----------------------------------------------------------------------------------------------------
 		
-
-
-
-
-		
-
-
-    
-
-    // // omdb search function uing imdb id from guidebox
-	   //  $.ajax({
-	   //    url: "http://www.omdbapi.com/?",
-	   //    method: "GET",
-	   //    data: {
-	   //    		// imdb id for suicide squad taken from guidebox
-	   //      	"i": imdbId,
-	   //      }
-	   //  }).done(function(response) {
-	   //    // console.log(response);
-
-	   //    // score from metacritic
-	   //    metascore = response.Metascore;
-	   //    console.log("metascore: " + metascore);
-			 //  console.log("-------------------------------------------------------------------------------------");
-
-	   //  }); // closing omdb ajax call done function
