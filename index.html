@@ -26,6 +26,7 @@
         <ul id="nav-mobile" class="left hide-on-med-and-down">        
             <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
             <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
+            <li><a class="waves-effect waves-light" href="#modal-profile">Profile</a></li>
         </ul>
 
         <ul class="side-nav" id="mobile-demo">
@@ -53,6 +54,7 @@
     </nav>
 
     <div class="container">
+      <form class="col s12">
         <div class="row search">
             <div class="col s10">
                 <div class="input-field nav-search center-align">
@@ -60,12 +62,13 @@
                     <label class="label-icon" for="search"><i class="material-icons"></i></label>
                 </div>
             </div>
-            <div class="col s2">
-                <button class="btn waves-effect waves-light searchbtn" type="search" name="action">Search
-                    <i class="material-icons right"></i>
+            <div class="col s1">
+                <button class="btn waves-effect waves-light searchbtn black" type="search" name="action">
+                    <i class="large material-icons">search</i>
                 </button>
             </div>
         </div>
+      </form>
         <!-- Results appended here -->
         <h5 class="center-align">Results</h5>
         <div class="searchResults">
@@ -174,6 +177,66 @@
 
     
     <!-- End of Modal Structure -->
+
+    <div id="modal-profile" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <form class="col s12">
+                    <h4>Profile</h4>
+                    <hr>
+                    <br>
+                    <h5>Current Email</h5>
+                    <p>Email placeholder</p>
+                    <br>
+                    <h5>Change Password</h5>
+                    <p>Existing Password</p>
+                    <p>New Password</p>
+                    <br>
+                    <h5>User Preferences</h5>
+                        <form action="#">
+                            <p>
+                              <input type="checkbox" id="pref-action"/>
+                              <label for="pref-action">Action</label>
+                            </p>
+                            <p>
+                              <input type="checkbox" id="pref-animated"/>
+                              <label for="pref-animated">Animated</label>
+                            </p>
+                            <p>
+                              <input type="checkbox" id="pref-comedy"/>
+                              <label for="pref-comedy">Comedy</label>
+                            </p>
+                            <p>
+                              <input type="checkbox" id="pref-drama"/>
+                              <label for="pref-drama">Drama</label>
+                            </p>
+                            <p>
+                              <input type="checkbox" id="pref-fantasy"/>
+                              <label for="pref-fantasy">Fantasy</label>
+                            </p>
+                            <p>
+                              <input type="checkbox" id="pref-horror"/>
+                              <label for="pref-horror">Horror</label>
+                            </p>
+                            <p>
+                              <input type="checkbox" id="pref-romance"/>
+                              <label for="pref-romance">Romance</label>
+                            </p>
+                            <p>
+                              <input type="checkbox" id="pref-scifi"/>
+                              <label for="pref-scifi">Sci-Fi</label>
+                            </p>                            
+                        </form>
+                    
+                    <!-- Button to close modal -->
+                    <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+     <!-- End of Modal Structure -->
     <!-- Jquery and firebase -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
