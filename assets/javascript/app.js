@@ -322,6 +322,9 @@ $(document).ready(function(){
 
     // appends items to results div after search term and re-populates recommended results
     $(".searchbtn").on("click", function(){
+
+    	    event.preventDefault();
+    	    
 	    	var searchTerm = $("#search").val();
 	    	$("#search").val("");
 	    	$(".searchResults").empty();
