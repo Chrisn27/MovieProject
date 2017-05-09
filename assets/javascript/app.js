@@ -1,5 +1,50 @@
 $(document).ready(function(){
 
+	 $(".button-collapse").sideNav();
+
+  //   $(".validate").validate({
+  //       rules: {
+  //           first_name: {
+  //               required: true
+  //           },
+  //           last_name: {
+  //               required: true
+  //           },
+  //           password: {
+		// 		required: true,
+		// 		minlength: 5
+		// 	},
+		// 	cpassword: {
+		// 		required: true,
+		// 		minlength: 5,
+		// 		equalTo: "#password"
+		// 	},
+  //           email: {
+		// 		required: true,
+  //               email:true
+		// 	},
+		// },
+  //       //For custom messages
+  //       messages: {
+  //           first_name:{
+  //               required: "Enter a first name"
+  //           },
+  //           last_name:{
+  //           	required: "Enter a last name",
+  //               minlength: "Enter at least 5 characters"
+  //           },
+	 //        errorElement : 'div',
+	 //        errorPlacement: function(error, element) {
+	 //          var placement = $(element).data('error');
+	 //          if (placement) {
+	 //            $(placement).append(error)
+	 //          } else {
+	 //            error.insertAfter(element);
+	 //          }
+	 //       	}
+	 //      }
+	 //   	});
+
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU",
