@@ -21,9 +21,9 @@ Original
 
 .movie-info {
 	position: relative;
-	bottom: 70px;
-	z-index: 1;
-	background-color:rgba(255,255,255,0.3);
+	bottom: 10px;
+/*	z-index: 1;*/
+/*	background-color:rgba(0,0,0,0.7);
 	padding: 10px;
 }
 */
