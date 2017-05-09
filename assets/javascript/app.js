@@ -223,6 +223,10 @@ $(document).ready(function(){
 											      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
 											      
 											      var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
+
+											      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+												  var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+												  // var newGenre = $("<p>").addClass("movie-genre").text(genreArr.join(", ")).appendTo(newMovieInfoDiv);
 											      
 											      // Viewing Sources
 											      var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
@@ -252,9 +256,7 @@ $(document).ready(function(){
 
 												  }
 
-													      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
-													      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
-													      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
+													      
 											      
 											      
 										  	  }
