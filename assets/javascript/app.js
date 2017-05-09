@@ -252,9 +252,9 @@ $(document).ready(function(){
 
 												  }
 
-													      // var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
-													      // var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
-													      // var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
+													      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+													      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+													      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
 											      
 											      
 										  	  }
