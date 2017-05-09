@@ -15,6 +15,17 @@ nav {
 	height: 300px;
 }
 
+.modal-movie-poster {
+	height: 300px;
+	margin: 0px;
+}
+
+.movie-content {
+	padding: 5px;
+	/*position: relative;
+	left: 100px;*/
+}
+
 .movie-info {
 	position: relative;
 	bottom: 170px;

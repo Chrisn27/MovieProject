@@ -222,41 +222,45 @@ $(document).ready(function(){
 											      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
 											      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
 											      
-											      var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
 
-											      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
-												  var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+											   //    var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
+
+											   //    var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+												  // var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
 												  // var newGenre = $("<p>").addClass("movie-genre").text(genreArr.join(", ")).appendTo(newMovieInfoDiv);
 											      
-											      // Viewing Sources
-											      var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
+											   //    var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
 
-											      for (var i=0; i<freeWebSources.length; i++) {
+											   //    for (var i=0; i<freeWebSources.length; i++) {
 			
-													      var newFreeLinkLogo = $("<a>").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
-													      $("<img>").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
-	  											  }
+													 //      var newFreeLinkLogo = $("<a>").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
+													 //      $("<img>").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
+	  											//   }
 
-											      for (var i=0; i<paidWebSources.length; i++) {
+											   //    for (var i=0; i<paidWebSources.length; i++) {
 													      
-											      		if (paidWebSources[i].source.indexOf("netflix") > -1) {
-													      var newNetflixLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
-													      $("<img>").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
-													    }
+											   //    		if (paidWebSources[i].source.indexOf("netflix") > -1) {
+													 //      var newNetflixLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
+													 //      $("<img>").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
+													 //    }
 
-													    if (paidWebSources[i].source.indexOf("amazon") > -1) {
-													      var newAmazonLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
-													      $("<img>").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
-													    }
+													 //    if (paidWebSources[i].source.indexOf("amazon") > -1) {
+													 //      var newAmazonLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
+													 //      $("<img>").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
+													 //    }
 													     
-													    if (paidWebSources[i].source.indexOf("hulu") > -1) {
-													      var newHuluLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
-													      $("<img>").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
-													    }
+													 //    if (paidWebSources[i].source.indexOf("hulu") > -1) {
+													 //      var newHuluLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
+													 //      $("<img>").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
+													 //    }
 
-												  }
+												  // }
 
-													      
+
+													 //      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+													 //      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+													 //      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
+
 											      
 											      
 										  	  }
