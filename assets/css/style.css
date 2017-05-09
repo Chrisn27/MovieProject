@@ -15,14 +15,36 @@ nav {
 	height: 300px;
 }
 
+<<<<<<< HEAD
 .movie-info {
 	position: relative;
 	bottom: 146px;
+=======
+.modal-movie-poster {
+	height: 300px;
+	margin: 0px;
+}
+
+.movie-content {
+	padding: 5px;
+	/*position: relative;
+	left: 100px;*/
+}
+
+.movie-info {
+	position: relative;
+	bottom: 170px;
+>>>>>>> 184fe5e1002998027ca9f4e4a4599ddb7dbc0259
 	z-index: 1;
 	font-weight: bold;
 	color: white;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+<<<<<<< HEAD
 	background-color:rgba(255,255,255,0.3);
+=======
+	background-color:rgba(0,0,0,0.7);
+	z-index: 1;
+>>>>>>> 184fe5e1002998027ca9f4e4a4599ddb7dbc0259
 	padding: 10px;
 	width: 210px;
 	visibility: hidden
@@ -30,7 +52,7 @@ nav {
 
 .movie-sources {
 	position: relative;
-	bottom: 140px;
+	bottom: 0px;
 	display: block;
 }
 
@@ -45,7 +67,6 @@ h5 {
 .search {
 	margin-top: 13px;
 }
-
 
 @media only screen and (max-width: 768px) {
 
