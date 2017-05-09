@@ -15,6 +15,10 @@ nav {
 	height: 300px;
 }
 
+/*
+
+Original
+
 .movie-info {
 	position: relative;
 	bottom: 70px;
@@ -22,11 +26,48 @@ nav {
 	background-color:rgba(255,255,255,0.3);
 	padding: 10px;
 }
+*/
+
+/*added 5/8/17 */
+
+.movie-info {
+	position: relative;
+	bottom: 146px;
+	z-index: 1;
+	font-weight: bold;
+	color: white;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	background-color:rgba(255,255,255,0.3);
+	padding: 10px;
+	width: 210px;
+	visibility: hidden
+}
+
+.movie-sources {
+	position: relative;
+	bottom: 140px;
+	display: block;
+}
+
+.movieMenuDiv:hover .movie-info {
+	visibility: visible;
+}
+
+/**/
 
 h5 {
 	clear: both;
 }
 
-.searchbtn {
+.search {
 	margin-top: 13px;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+.chrisflix {
+	height: 56px;
+}
+
 }

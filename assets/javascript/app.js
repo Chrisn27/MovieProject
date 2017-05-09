@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+	 $(".button-collapse").sideNav();
+
 	// global variables
 	var limit = "5";
 	var castLimit = "10";
