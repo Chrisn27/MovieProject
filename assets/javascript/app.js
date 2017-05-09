@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-	 $(".button-collapse").sideNav();
+	$('.modal').modal('close');
+	$(".button-collapse").sideNav();
 
   //   $(".validate").validate({
   //       rules: {
