@@ -91,27 +91,32 @@
         </div>
     </div>
     <!-- Close Container -->
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <img class="modal-movie-poster">
-            <h4 class="modal-movie-title">Movie Title</h4>
-            <p class="modal-movie-year">20XX</p>
-            <p class="modal-movie-genre">Genre Placeholder</p>
-            <p class="modal-movie-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p id="modal-movie-stars">Starring:</p>
-            <p id="modal-metascore">Metascore:</p>
-            <!-- Subscription Sources -->
-            <div class="modal-movie-sources">
-<!--               <a href="#"><img src="assets/images/netflix.png"></a>
-              <a href="#"><img src="assets/images/amazon.png"></a>
-              <a href="#"><img src="assets/images/hulu.png"></a> -->
+
+    <div class="row">
+         <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                 <div class="col s12 m4">
+                    <img class="modal-movie-poster">
+                 </div>
+                <div id="movie-content" class="col s12 m8">
+                    <h4 class="modal-movie-title">Movie Title</h4>
+                    <p class="modal-movie-year">20XX</p>
+                    <p class="modal-movie-genre">Genre Placeholder</p>
+                    <p class="modal-movie-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p id="modal-movie-stars">Starring:</p>
+                    <p id="modal-metascore">Metascore:</p>
+                    <!-- Subscription Sources -->
+                    <div class="modal-movie-sources">
+                    </div>
+                </div>
+                            
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-        </div>
-    </div>
+    </div> <!-- end of modal row -->
     
     <div id="modal-register" class="modal">
         <div class="modal-content">
@@ -166,6 +171,8 @@
             </div>
         </div>
     </div>
+
+    
     <!-- End of Modal Structure -->
     <!-- Jquery and firebase -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
