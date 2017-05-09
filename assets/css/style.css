@@ -32,12 +32,18 @@ Original
 
 .movie-info {
 	position: relative;
+
 	bottom: 146px;
 	z-index: 1;
 	font-weight: bold;
 	color: white;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	background-color:rgba(255,255,255,0.3);
+
+	bottom: 10px;
+/*	z-index: 1;*/
+/*	background-color:rgba(0,0,0,0.7);*/
+
 	padding: 10px;
 	width: 210px;
 	visibility: hidden
