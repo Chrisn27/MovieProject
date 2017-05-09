@@ -390,8 +390,8 @@ $(document).ready(function(){
 	        }).done(function(result) {
 		          console.log(result);
 		          var data = result.results;
-		          var location = ".recommendedResults"
-		          buildMovieMenuItem(data,location);
+		          var location = ".recommendedResults";
+		          buildMovieMenuItem(data,location, "");
 	      	}); // closing outer ajax call done function
 
     }) // closes search button function
