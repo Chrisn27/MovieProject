@@ -1,5 +1,4 @@
 <!-- Master -->
-
 <!DOCTYPE html>
 <html>
 
@@ -9,63 +8,59 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Chrisflix</title>
 </head>
 
 <body>
-
     <nav>
-
         <!-- Navbar, Login, logo and Genre sorter -->
-
-    <div class="nav-wrapper">
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul id="nav-mobile" class="left hide-on-med-and-down">        
-            <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
-            <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
-        </ul>
-
-        <ul class="side-nav" id="mobile-demo">
-            <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
-            <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
-        </ul>
-
-        <ul id="dropdown1" class="dropdown-content">
-            <li><a href="#!">Action</a></li>
-            <li><a href="#!">Animated</a></li>
-            <li><a href="#!">Comedy</a></li>
-            <li><a href="#!">Drama</a></li>
-            <li><a href="#!">Fantasy</a></li>
-            <li><a href="#!">Horror</a></li>
-            <li><a href="#!">Romance</a></li>
-            <li><a href="#!">Sci-Fi</a></li>
-        </ul>
-
-        <img class="brand-logo center chrisflix" src="assets/images/logo.png">
-        <ul class="right">
-            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
-        </ul>
-    </div>
-
+        <div class="nav-wrapper">
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
+                <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
+                <li><a class="waves-effect waves-light" href="#modal-profile">Profile</a></li>
+                <li id="current">
+                    <a class="waves-effect waves-light"></a>
+                </li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
+                <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
+            </ul>
+            <ul id="dropdown1" class="dropdown-content">
+                <li><a href="#!" class="genreDropdownItem">Action</a></li>
+                <li><a href="#!" class="genreDropdownItem">Animated</a></li>
+                <li><a href="#!" class="genreDropdownItem">Comedy</a></li>
+                <li><a href="#!" class="genreDropdownItem">Drama</a></li>
+                <li><a href="#!" class="genreDropdownItem">Fantasy</a></li>
+                <li><a href="#!" class="genreDropdownItem">Horror</a></li>
+                <li><a href="#!" class="genreDropdownItem">Romance</a></li>
+                <li><a href="#!" class="genreDropdownItem">Science-Fiction</a></li>
+            </ul>
+            <img class="brand-logo center chrisflix" src="assets/images/logo.png">
+            <ul class="right">
+                <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
+            </ul>
+        </div>
     </nav>
-
     <div class="container">
-        <div class="row search">
-            <div class="col s10">
-                <div class="input-field nav-search center-align">
-                    <input id="search" type="search" placeholder="search" required>
-                    <label class="label-icon" for="search"><i class="material-icons"></i></label>
+        <form class="col s12">
+            <div class="row search">
+                <div class="col s10">
+                    <div class="input-field nav-search center-align">
+                        <input id="search" type="search" placeholder="search" required>
+                        <label class="label-icon" for="search"><i class="material-icons"></i></label>
+                    </div>
+                </div>
+                <div class="col s1">
+                    <button class="btn waves-effect waves-light searchbtn black" type="search" name="action">
+                        <i class="large material-icons">search</i>
+                    </button>
                 </div>
             </div>
-            <div class="col s2">
-                <button class="btn waves-effect waves-light searchbtn" type="search" name="action">Search
-                    <i class="material-icons right"></i>
-                </button>
-            </div>
-        </div>
+        </form>
         <!-- Results appended here -->
         <h5 class="center-align">Results</h5>
         <div class="searchResults">
@@ -76,14 +71,13 @@
                 <div class="movie-info">
                     <p class="movie-title">Movie Title</p>
                     <p class="movie-year">year placeholder</p>
-                    <p class="movie-genre">genre placeholder</p>                    
+                    <p class="movie-genre">genre placeholder</p>
                 </div>
-
                 <div class="movie-sources">
                     <img src="assets/images/netflix.png">
                     <img src="assets/images/amazon.png">
                     <img src="assets/images/hulu.png">
-                </div>                
+                </div>
             </div>
         </div>
         <h5 class="center-align">Recommended</h5>
@@ -91,36 +85,39 @@
         </div>
     </div>
     <!-- Close Container -->
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <img class="modal-movie-poster">
-            <h4 class="modal-movie-title">Movie Title</h4>
-            <p class="modal-movie-year">20XX</p>
-            <p class="modal-movie-genre">Genre Placeholder</p>
-            <p class="modal-movie-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p id="modal-movie-stars">Starring:</p>
-            <p id="modal-metascore">Metascore:</p>
-            <!-- Subscription Sources -->
-            <div class="modal-movie-sources">
-<!--               <a href="#"><img src="assets/images/netflix.png"></a>
-              <a href="#"><img src="assets/images/amazon.png"></a>
-              <a href="#"><img src="assets/images/hulu.png"></a> -->
+    <div class="row">
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <div class="col s12 m4">
+                    <img class="modal-movie-poster">
+                </div>
+                <div id="movie-content" class="col s12 m8">
+                    <h4 class="modal-movie-title">Movie Title</h4>
+                    <p class="modal-movie-year">20XX</p>
+                    <p class="modal-movie-genre">Genre Placeholder</p>
+                    <p class="modal-movie-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p id="modal-movie-stars">Starring:</p>
+                    <p id="modal-metascore">Metascore:</p>
+                    <!-- Subscription Sources -->
+                    <div class="modal-movie-sources">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-        </div>
     </div>
-    
+    <!-- end of modal row -->
     <div id="modal-register" class="modal">
         <div class="modal-content">
             <div class="row">
-                <form class="col s12">
+                <form class="col s12" id="register-form">
                     <div class="row">
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="email" type="email" class="validate">
+                                <input id="email" type="text" class="validate">
                                 <label for="email">E-Mail</label>
                             </div>
                         </div>
@@ -136,22 +133,56 @@
                                 <label for="cpassword">Confirm Password</label>
                             </div>
                         </div>
+                        <h5>User Preferences</h5>
+                        <form action="#">
+                            <p>
+                                <input type="checkbox" id="pref-action" />
+                                <label for="pref-action">Action</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="pref-animated" />
+                                <label for="pref-animated">Animated</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="pref-comedy" />
+                                <label for="pref-comedy">Comedy</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="pref-drama" />
+                                <label for="pref-drama">Drama</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="pref-fantasy" />
+                                <label for="pref-fantasy">Fantasy</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="pref-horror" />
+                                <label for="pref-horror">Horror</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="pref-romance" />
+                                <label for="pref-romance">Romance</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="pref-scifi" />
+                                <label for="pref-scifi">Sci-Fi</label>
+                            </p>
+                        </form>
                     </div>
                     <button class="waves-effect waves-light btn" type="submit" id="register-submit">Register</button>
-                    <button class="waves-effect waves-light btn" type="submit" id="register-close">Cancel</button>
+                    <button class="waves-effect waves-light btn" type="submit" id="register-close">Close</button>
                 </form>
             </div>
         </div>
     </div>
-    
     <div id="modal-login" class="modal">
         <div class="modal-content">
             <div class="row">
-                <form class="col s12">
+                <form class="col s12" id="login-form">
                     <div class="row">
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="login-email" type="email" class="validate">
+                                <input id="login-email" type="text" class="validate">
                                 <label for="email">E-Mail</label>
                             </div>
                         </div>
@@ -163,12 +194,69 @@
                         </div>
                     </div>
                     <button class="waves-effect waves-light btn" type="submit" id="login-submit">Login</button>
-                    <button class="waves-effect waves-light btn" type="submit" id="login-close">Cancel</button>
+                    <button class="waves-effect waves-light btn" type="submit" id="login-close">Close</button>
                 </form>
             </div>
         </div>
     </div>
-
+    <!-- End of Modal Structure -->
+    <div id="modal-profile" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <form class="col s12">
+                    <h4>Profile</h4>
+                    <hr>
+                    <br>
+                    <h5>Current Email</h5>
+                    <p>Email placeholder</p>
+                    <br>
+                    <h5>Change Password</h5>
+                    <p>Existing Password</p>
+                    <p>New Password</p>
+                    <br>
+                    <h5>User Preferences</h5>
+                    <form action="#">
+                        <p>
+                            <input type="checkbox" id="pref-action" />
+                            <label for="pref-action">Action</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="pref-animated" />
+                            <label for="pref-animated">Animated</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="pref-comedy" />
+                            <label for="pref-comedy">Comedy</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="pref-drama" />
+                            <label for="pref-drama">Drama</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="pref-fantasy" />
+                            <label for="pref-fantasy">Fantasy</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="pref-horror" />
+                            <label for="pref-horror">Horror</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="pref-romance" />
+                            <label for="pref-romance">Romance</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="pref-scifi" />
+                            <label for="pref-scifi">Sci-Fi</label>
+                        </p>
+                    </form>
+                    <!-- Button to close modal -->
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- End of Modal Structure -->
     <!-- Jquery and firebase -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
