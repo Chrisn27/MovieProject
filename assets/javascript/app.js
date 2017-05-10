@@ -215,8 +215,8 @@ $(document).ready(function(){
 											  // Build html and append if there are actually free/subscription sources
 										      if (paidWebSources.length > 0 || freeWebSources.length > 0) {
 
-										      console.log(genreInput);	
-										      // Build if genre was inputed, else build as normal
+				
+										      	// Build if genre was inputed, else build as normal
 											      if (genreInput != "") {
 											      	if (genreArr.indexOf(genreInput) > -1) {
 											      		var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
