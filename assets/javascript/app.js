@@ -60,9 +60,12 @@ $(document).ready(function(){
   // Create a variable to reference the database.
   var db = firebase.database();
 
+  // create users and preference directory first 
+  // log in and out auth state change 
+
 	$('#register-submit').on("click", function(event) {
 		event.preventDefault();
-		alert("eyyy")
+		//alert("you are registering")
 		//userID = $("#user").val().trim();
 		var password = $("#password").val().trim();
 		var cpassword = $("#cpassword").val().trim();
@@ -74,9 +77,12 @@ $(document).ready(function(){
 
 		firebase.auth().createUserWithEmailAndPassword(email, password)
 		.then(function(user) {
-			console.log("inside createUserWithEmailAndPassword");
-			// logUser(user);
+			//alert("you successfully registered");
+
+			// apply preferences to user in database
+
 			$('#modal-register').modal('close');
+			// logUser(user);
 		})
 		.catch(function(err) {
 			var errorCode = err.code;
@@ -85,14 +91,12 @@ $(document).ready(function(){
   			// add error handling for (existing user, pw < 4 and pw comparison)
 			console.log("Data not saved " + errorCode + errorMessage);	
 		})
-
 	});
 	
 	// //firebase.auth().curentUser to get current user info
 	// ((function){
 
 	// })();
-	
 	$('#login-submit').on("click", function(event) { 
 		event.preventDefault();
 		var password = $("#login-password").val().trim();
@@ -100,6 +104,9 @@ $(document).ready(function(){
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(function(user) {
 			console.log(user);
+			alert("you logged-in")
+			// pull preferences
+
 			$('#modal-login').modal('close');	
 		})
 		.catch(function(err) {
