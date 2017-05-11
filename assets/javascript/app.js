@@ -78,15 +78,15 @@ $(document).ready(function() {
 
         // Display current user created/logged-in (Profile form)
         function setProfile(email) {
+			// Clear last user
+			$('#profile-user').empty();
+			
             // Add current user email to profile form
             var currentUser = $('<label for="disabled">Current User</label><br>').text('Profile: ' + email);
 
             // Append currentUser to Profile placeholder = #profile-user
             $('#profile-user').append(currentUser);
         }
-
-        // capture click(s)
-
 
         // When Register Submit clicked, store email and password into variables
         $('#register-submit').on('click', function(event) {
@@ -95,11 +95,6 @@ $(document).ready(function() {
             var email = $('#email').val().trim();
             var password = $('#password').val().trim();
             var cpassword = $('#cpassword').val().trim();
-
-
-            // save to firebase db
-
-            // query firebase db by user
 
             // Call firebase auth to set user in Auth db
             firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -157,7 +152,10 @@ $(document).ready(function() {
                     // Change Login button text after successfully logged-in
                     var displaySuccess = 'Successfully Logged-In';
                     $('#login-submit').text(displaySuccess);
-
+					
+					// Clear form when after successfully registered
+                    $('#login-form').find('input:text, input:password').val('');
+					
                     setProfile(email);
                     setUser(email);
 
@@ -165,20 +163,10 @@ $(document).ready(function() {
                     var currentUser = firebase.auth().currentUser.uid;
                     console.log(currentUser);
 
-                    // var genre, email;
-
-                    // if(user != null) {
-                    // 	//genre = user.genre;
-                    // 	email = user.email;
-                    // 	genre = user.genre;
-                    // }
-
                     //var currentGenre = db.ref('users/' + currentUser);
                     db.ref('users/' + currentUser + '/genre').once('value', function(snap) {
                         console.log('I fetched a user!', snap.val());
                     });
-
-                    //console.log(currentGenre);
 
                 })
                 .catch(function(err) {
