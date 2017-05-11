@@ -46,7 +46,7 @@ $(document).ready(function() {
         //      }
         //   	});
 
-// -----------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------------------
         // Initialize Firebase
         var config = {
             apiKey: 'AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU',
@@ -60,9 +60,9 @@ $(document).ready(function() {
 
         // Create a variable to reference the database.
         var db = firebase.database();
-        var userGenre = 'comedy';
+        var userGenre = [];
 
-        // Display current user created/logged-in
+        // Display current user created/logged-in (Nav bar)
         function setUser(email) {
             // Add current user email to nav bar
             var currentUser = $('<li id="current"><a class="waves-effect waves-light">').text(email);
@@ -76,6 +76,18 @@ $(document).ready(function() {
             $('#current').append(currentUser);
         }
 
+        // Display current user created/logged-in (Profile form)
+        function setProfile(email) {
+            // Add current user email to profile form
+            var currentUser = $('<label for="disabled">Current User</label><br>').text('Profile: ' + email);
+
+            // Append currentUser to Profile placeholder = #profile-user
+            $('#profile-user').append(currentUser);
+        }
+
+        // capture click(s)
+
+
         // When Register Submit clicked, store email and password into variables
         $('#register-submit').on('click', function(event) {
             event.preventDefault();
@@ -84,15 +96,26 @@ $(document).ready(function() {
             var password = $('#password').val().trim();
             var cpassword = $('#cpassword').val().trim();
 
+
+            // save to firebase db
+
+            // query firebase db by user
+
             // Call firebase auth to set user in Auth db
             firebase.auth().createUserWithEmailAndPassword(email, password)
 
             // After user in Auth db, use Auth UID and store into Firebase db
             .then(function(user) {
+
+                    $('#genre-pref input:checked').each(function() {
+                        userGenre.push($(this).attr('data-genre'));
+                    });
                     db.ref('/users/' + user.uid).set({
-                        //genre: $('#genre').val().trim(),
-                        id: user.uid
-                    })
+                        id: user.uid,
+                        email: user.email,
+                        genre: JSON.stringify(userGenre)
+                    });
+                    console.log(JSON.stringify(userGenre));
 
                     // Change Registration button text after successfully registered
                     var displaySuccess = 'Successfully Registered';
@@ -104,6 +127,7 @@ $(document).ready(function() {
                     // Clear last user
                     $('#current').empty();
 
+                    setProfile(email);
                     setUser(email);
                 })
                 .catch(function(err) {
@@ -134,12 +158,48 @@ $(document).ready(function() {
                     var displaySuccess = 'Successfully Logged-In';
                     $('#login-submit').text(displaySuccess);
 
+                    setProfile(email);
                     setUser(email);
+
+                    // get user genre
+                    var currentUser = firebase.auth().currentUser.uid;
+                    console.log(currentUser);
+
+                    // var genre, email;
+
+                    // if(user != null) {
+                    // 	//genre = user.genre;
+                    // 	email = user.email;
+                    // 	genre = user.genre;
+                    // }
+
+                    //var currentGenre = db.ref('users/' + currentUser);
+                    db.ref('users/' + currentUser + '/genre').once('value', function(snap) {
+                        console.log('I fetched a user!', snap.val());
+                    });
+
+                    //console.log(currentGenre);
 
                 })
                 .catch(function(err) {
                     console.error(err);
                 })
+        });
+
+        $('#profile-save').on('click', function(event) {
+            event.preventDefault();
+
+            var user = firebase.auth().currentUser;
+            var password = $('#profile-password').val().trim();
+            var newPassword = password;
+
+            user.updatePassword(newPassword).then(function() {
+                // Update successful.
+                console.log(password);
+            }, function(error) {
+                // An error happened.
+            });
+
         });
 
         // Clear & close Registration Modal when cancel clicked
@@ -162,7 +222,17 @@ $(document).ready(function() {
             $('#login-submit').text(displayLogin);
         });
 
-// -----------------------------------------------------------------------------------------------------
+        // Clear & close Profile Modal when cancel clicked
+        // Reset Save button text 
+        $('#profile-cancel').on('click', function(event) {
+            event.preventDefault();
+            $('#profile-form').find('input:text, input:password').val('');
+            $('.modal').modal('close');
+            var displaySave = 'Save';
+            $('#login-submit').text(displaySave);
+        });
+
+        // -----------------------------------------------------------------------------------------------------
 
         // global variables
         var limit = "5";
