@@ -271,6 +271,7 @@ $(document).ready(function() {
 			          var movieId = data[j].id;
 			          var imdbId = data[j].imdb;
 
+
 	          				var urlId = "http://api-public.guidebox.com/v2/movies/" + movieId;
 					        $.ajax({
 					        	async: false,
@@ -293,7 +294,14 @@ $(document).ready(function() {
 
 								  var paidWebSources = result.subscription_web_sources;
 						          var freeWebSources = result.free_web_sources;
-						          var purchaseWebSources = result.purchase_web_sources;
+						          var purchaseWebSources = result.purchase_web_sources;	
+
+
+						          var trailer = result.trailers.web;
+						          var trailerArr = [];
+						          	for (var i=0; i<trailer.length; i++) {
+						          		trailerArr.push(trailer[i].embed)
+						          	}
 
 						          // duration movie is in seconds
 						          var duration = result.duration;
@@ -307,12 +315,16 @@ $(document).ready(function() {
 
 							      var tags = result.tags;
 
+								  							      			  
+							      
+
 						          console.log("description: " + description);
 						          console.log("genre: " + JSON.stringify(genre));
 						          console.log("freeWebSources: " + JSON.stringify(freeWebSources));
 						          console.log("paidWebSources: " + JSON.stringify(paidWebSources));
 						          console.log("duration (sec): " + duration);
-						          
+						          console.log("trailer " + trailer);
+						          console.log(trailerArr);
 						          // console.log("cast: " + JSON.stringify(cast) + "...");
 
 						              // omdb search function uing imdb id from guidebox
@@ -329,8 +341,11 @@ $(document).ready(function() {
 
 										      // score from metacritic
 										      metascore = response.Metascore;
-										      console.log("metascore: " + metascore);
+										      console.log("metascore: " + metascore);								   
 										      console.log("-------------------------------------------------------------------------------------");
+										      	      
+
+
 
 										      // Extract genres from genreArray
 										      var genreArr = [];
@@ -360,7 +375,12 @@ $(document).ready(function() {
 													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
 													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
 													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
+
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
+													      	newMovieMenuDiv.attr("data-trailers", trailerArr);
+
 													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources)).attr("data-duration", duration);
+
 
 													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
 													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
@@ -375,7 +395,12 @@ $(document).ready(function() {
 													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
 													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
 													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
+
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
+													      	newMovieMenuDiv.attr("data-trailers", trailerArr);
+
 													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources)).attr("data-duration", duration);
+
 
 													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
 													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
@@ -445,9 +470,14 @@ $(document).ready(function() {
     	var paidWebSources = $(this).data("subwebsources");
     	var freeWebSources = $(this).data("freewebsources");
     	var purchaseWebSources = $(this).data("purchasewebsources");
+
+    	var trailer = $(this).data("trailers");
+    	console.log(trailer);
+
     	var duration = parseInt($(this).data("duration"));
     	console.log(duration);
     	var durationMin = duration/60;
+
 
     	$(".modal-movie-title").text(title);
     	$(".modal-movie-year").text(year);
@@ -459,6 +489,7 @@ $(document).ready(function() {
     	$("#modal-metascore").html("<strong>Metascore:</strong> " + metascore);
 
 		$(".modal-movie-sources").empty();
+		$(".video-container").empty();
 
     	for (var i=0; i<freeWebSources.length; i++) {
 			
@@ -532,6 +563,12 @@ $(document).ready(function() {
 		      $("<img>").addClass("linkLogo").attr("src", "assets/images/genericPurchase.png").appendTo(newPurchaseLinkLogo);
 	  		}
 	  	}
+
+	  		var embedTrailer = $("<iframe>").attr("src", trailer);
+	  		embedTrailer.attr("frameborder",0);
+	  	    embedTrailer.attr("allowfullscreen");	  		
+
+	  		$(".video-container").append(embedTrailer);
 
     });
 

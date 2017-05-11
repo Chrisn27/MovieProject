@@ -74,6 +74,11 @@ h5 {
 	margin-top: 10px;
 }
 
+
+.video-container {
+	margin: 0 auto;
+}
+
 .wrapper {
 	margin-left: 10px;
 	position: relative;
