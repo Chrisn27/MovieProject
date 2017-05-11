@@ -109,7 +109,7 @@ $(document).ready(function(){
 //--------------------------------------------------------------------
 
 	// global variables
-	var limit = "5";
+	var limit = "20";
 	var castLimit = "10";
 	var userGenrePref = [];
 
@@ -157,29 +157,30 @@ $(document).ready(function(){
 					        }).done(function(result) {
 						          console.log(result);
 
-						          description = result.overview;
+						          var description = result.overview;
 
-						          genre = result.genres;
+						          var genre = result.genres;
 
 							      // sources obj has display name, link, and source eg.
 									// display_name:"HBO (Via Amazon Prime)"
 									// link:"http://www.amazon.com/gp/product/B01J7YLPGM?spp=hbo"
 									// source:"hbo_amazon_prime"
 
-								  paidWebSources = result.subscription_web_sources;
-						          freeWebSources = result.free_web_sources;
+								  var paidWebSources = result.subscription_web_sources;
+						          var freeWebSources = result.free_web_sources;
+						          var purchaseWebSources = result.purchase_web_sources;
 
 						          // duration movie is in seconds
-						          duration = result.duration;
+						          var duration = result.duration;
 
 						          // extract cast names from cast result array
-						          cast = result.cast;
+						          var cast = result.cast;
 						          var castArr = [];
 						          	for (var i=0; i<castLimit; i++) {
 						          		castArr.push(cast[i].name)
 						          	}
 
-							      tags = result.tags;
+							      var tags = result.tags;
 
 						          console.log("description: " + description);
 						          console.log("genre: " + JSON.stringify(genre));
@@ -212,19 +213,30 @@ $(document).ready(function(){
 										      	genreArr.push(genre[i].title);
 										      }
 
+										      
 											  // Build html and append if there are actually free/subscription sources
-										      if (paidWebSources.length > 0 || freeWebSources.length > 0) {
+										      if (paidWebSources.length > 0 || freeWebSources.length > 0 || purchaseWebSources.length > 0) {
 
 				
 										      	// Build if genre was inputed, else build as normal
 											      if (genreInput != "") {
-											      	if (genreArr.indexOf(genreInput) > -1) {
+
+													var found = false;
+													for (var i = 0; i < genreInput.length; i++) {
+													    if (genreArr.indexOf(genreInput[i]) > -1) {
+													        found = true;
+													        break;
+													    }
+													}
+
+											      	if (found) {
 											      		var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
 													      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
 													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
 													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
-													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources))
-													      									      
+													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
+
 													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
 													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
 											      	}
@@ -237,8 +249,9 @@ $(document).ready(function(){
 													      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
 													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
 													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
-													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources))
-													      									      
+													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
+
 													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
 													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
 													      
@@ -306,6 +319,7 @@ $(document).ready(function(){
     	var metascore = $(this).data("metascore");
     	var paidWebSources = $(this).data("subwebsources");
     	var freeWebSources = $(this).data("freewebsources");
+    	var purchaseWebSources = $(this).data("purchasewebsources");
 
     	$(".modal-movie-title").text(title);
     	$(".modal-movie-year").text(year);
@@ -319,27 +333,75 @@ $(document).ready(function(){
 
     	for (var i=0; i<freeWebSources.length; i++) {
 			
-		      var newFreeLinkLogo = $("<a>").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
-		      $("<img>").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
+		      var newFreeLinkLogo = $("<a>").attr("target", "_blank").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
 	  	}
 
     	for (var i=0; i<paidWebSources.length; i++) {
 													      
       		if (paidWebSources[i].source.indexOf("netflix") > -1) {
-		      var newNetflixLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo($(".modal-movie-sources"));
-		      $("<img>").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
+		      var newNetflixLinkLogo = $("<a>").attr("target", "_blank").attr("href", paidWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
 		    }
 
 		    if (paidWebSources[i].source.indexOf("amazon") > -1) {
-		      var newAmazonLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo($(".modal-movie-sources"));
-		      $("<img>").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
+		      var newAmazonLinkLogo = $("<a>").attr("target", "_blank").attr("href", paidWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
 		    }
 		     
 		    if (paidWebSources[i].source.indexOf("hulu") > -1) {
-		      var newHuluLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo($(".modal-movie-sources"));
-		      $("<img>").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
+		      var newHuluLinkLogo = $("<a>").attr("target", "_blank").attr("href", paidWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
 		    }
 		         
+	  	}
+
+	  	for (var i=0; i<purchaseWebSources.length; i++) {
+
+	  		if (purchaseWebSources[i].source.indexOf("google") > -1) {
+		      var newGoogleLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/googlePlay.png").appendTo(newGoogleLinkLogo);
+		    }
+		    else if (purchaseWebSources[i].source.indexOf("amazon") > -1) {
+		      var newAmazonLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
+		    }
+		    else if (purchaseWebSources[i].source.indexOf("mgo") > -1 || purchaseWebSources[i].source.indexOf("fandango") > -1) {
+		      var newFandangoLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/fandango.png").appendTo(newFandangoLinkLogo);
+		    }
+		    else if (purchaseWebSources[i].source.indexOf("vudu") > -1) {
+		      var newVuduLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/vudu.png").appendTo(newVuduLinkLogo);
+		    }
+		    else if (purchaseWebSources[i].source.indexOf("youtube") > -1) {
+		      var newYoutubeLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/youtube.png").appendTo(newYoutubeLinkLogo);
+		    }
+		    else if (purchaseWebSources[i].source.indexOf("sony") > -1) {
+		      var newSonyLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/sony.png").appendTo(newSonyLinkLogo);
+		    }
+		    else if (purchaseWebSources[i].source.indexOf("itunes") > -1) {
+		      var newItunesLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/itunes.png").appendTo(newItunesLinkLogo);
+		    }
+		    else if (purchaseWebSources[i].source.indexOf("verizon") > -1) {
+		      var newVerizonLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/verizon.png").appendTo(newVerizonLinkLogo);
+		    }
+		    else if (purchaseWebSources[i].source.indexOf("cinema") > -1) {
+		      var newCinemanowLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/cinemanow.png").appendTo(newCinemanowLinkLogo);
+		    }
+		    else if (purchaseWebSources[i].source.indexOf("disney") > -1) {
+		      var newDisneyLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/disney.png").appendTo(newDisneyLinkLogo);
+		    }
+			else {
+		      var newPurchaseLinkLogo = $("<a>").attr("target", "_blank").attr("href", purchaseWebSources[i].link).appendTo($(".modal-movie-sources"));
+		      $("<img>").addClass("linkLogo").attr("src", "assets/images/genericPurchase.png").appendTo(newPurchaseLinkLogo);
+	  		}
 	  	}
 
     });
@@ -401,7 +463,8 @@ $(document).ready(function(){
     	$(".searchResults").empty();
 	    $(".recommendedResults").empty();
 
-    	var genreInput = $(this).text();
+    	var genreInput = [];
+    	genreInput.push($(this).text());
     	
     	var url = "http://api-public.guidebox.com/v2/movies/";
 	        $.ajax({

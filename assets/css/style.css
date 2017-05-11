@@ -6,6 +6,10 @@ nav {
 	background-color: red;
 }
 
+.linkLogo {
+	height: 50px;
+}
+
 .movieMenuDiv {
 	float: left;
 	margin: 5px;
