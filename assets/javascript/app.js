@@ -136,171 +136,171 @@ $(document).ready(function(){
 
 	var buildMovieMenuItem = function(data, location, genre) {
 
-	var genreInput = genre;
+		var genreInput = genre;
 
-	for (var j=0; j<data.length; j++) {
+		for (var j=0; j<data.length; j++) {
 
-			          var title = data[j].original_title;
-			          var posterUrl = data[j].poster_400x570;
-			          var year =  data[j].release_year;
-			          var movieId = data[j].id;
-			          var imdbId = data[j].imdb;
+				          var title = data[j].original_title;
+				          var posterUrl = data[j].poster_400x570;
+				          var year =  data[j].release_year;
+				          var movieId = data[j].id;
+				          var imdbId = data[j].imdb;
 
-	          				var urlId = "http://api-public.guidebox.com/v2/movies/" + movieId;
-					        $.ajax({
-					        	async: false,
-						        url: urlId,
-						        method: 'GET',
-						        data: {
-						        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
-						        }
-					        }).done(function(result) {
-						          console.log(result);
+		          				var urlId = "http://api-public.guidebox.com/v2/movies/" + movieId;
+						        $.ajax({
+						        	async: false,
+							        url: urlId,
+							        method: 'GET',
+							        data: {
+							        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+							        }
+						        }).done(function(result) {
+							          console.log(result);
 
-						          var description = result.overview;
+							          var description = result.overview;
 
-						          var genre = result.genres;
+							          var genre = result.genres;
 
-							      // sources obj has display name, link, and source eg.
-									// display_name:"HBO (Via Amazon Prime)"
-									// link:"http://www.amazon.com/gp/product/B01J7YLPGM?spp=hbo"
-									// source:"hbo_amazon_prime"
+								      // sources obj has display name, link, and source eg.
+										// display_name:"HBO (Via Amazon Prime)"
+										// link:"http://www.amazon.com/gp/product/B01J7YLPGM?spp=hbo"
+										// source:"hbo_amazon_prime"
 
-								  var paidWebSources = result.subscription_web_sources;
-						          var freeWebSources = result.free_web_sources;
-						          var purchaseWebSources = result.purchase_web_sources;
+									  var paidWebSources = result.subscription_web_sources;
+							          var freeWebSources = result.free_web_sources;
+							          var purchaseWebSources = result.purchase_web_sources;
 
-						          // duration movie is in seconds
-						          var duration = result.duration;
+							          // duration movie is in seconds
+							          var duration = result.duration;
 
-						          // extract cast names from cast result array
-						          var cast = result.cast;
-						          var castArr = [];
-						          	for (var i=0; i<castLimit; i++) {
-						          		castArr.push(cast[i].name)
-						          	}
+							          // extract cast names from cast result array
+							          var cast = result.cast;
+							          var castArr = [];
+							          	for (var i=0; i<castLimit; i++) {
+							          		castArr.push(cast[i].name)
+							          	}
 
-							      var tags = result.tags;
+								      var tags = result.tags;
 
-						          console.log("description: " + description);
-						          console.log("genre: " + JSON.stringify(genre));
-						          console.log("freeWebSources: " + JSON.stringify(freeWebSources));
-						          console.log("paidWebSources: " + JSON.stringify(paidWebSources));
-						          console.log("duration (sec): " + duration);
-						          
-						          // console.log("cast: " + JSON.stringify(cast) + "...");
+							          console.log("description: " + description);
+							          console.log("genre: " + JSON.stringify(genre));
+							          console.log("freeWebSources: " + JSON.stringify(freeWebSources));
+							          console.log("paidWebSources: " + JSON.stringify(paidWebSources));
+							          console.log("duration (sec): " + duration);
+							          
+							          // console.log("cast: " + JSON.stringify(cast) + "...");
 
-						              // omdb search function uing imdb id from guidebox
-										    $.ajax({
-										      async: false,
-										      url: "http://www.omdbapi.com/?",
-										      method: "GET",
-										      data: {
-										      		// imdb id for suicide squad taken from guidebox
-										        	"i": imdbId,
-										        }
-										    }).done(function(response) {
-										      // console.log(response);
+							              // omdb search function uing imdb id from guidebox
+											    $.ajax({
+											      async: false,
+											      url: "http://www.omdbapi.com/?",
+											      method: "GET",
+											      data: {
+											      		// imdb id for suicide squad taken from guidebox
+											        	"i": imdbId,
+											        }
+											    }).done(function(response) {
+											      // console.log(response);
 
-										      // score from metacritic
-										      metascore = response.Metascore;
-										      console.log("metascore: " + metascore);
-										      console.log("-------------------------------------------------------------------------------------");
+											      // score from metacritic
+											      metascore = response.Metascore;
+											      console.log("metascore: " + metascore);
+											      console.log("-------------------------------------------------------------------------------------");
 
-										      // Extract genres from genreArray
-										      var genreArr = [];
-										      for (var i=0; i<genre.length; i++) {
-										      	genreArr.push(genre[i].title);
-										      }
+											      // Extract genres from genreArray
+											      var genreArr = [];
+											      for (var i=0; i<genre.length; i++) {
+											      	genreArr.push(genre[i].title);
+											      }
 
-										      
-											  // Build html and append if there are actually free/subscription sources
-										      if (paidWebSources.length > 0 || freeWebSources.length > 0 || purchaseWebSources.length > 0) {
+											      
+												  // Build html and append if there are actually free/subscription sources
+											      if (paidWebSources.length > 0 || freeWebSources.length > 0 || purchaseWebSources.length > 0) {
 
-				
-										      	// Build if genre was inputed, else build as normal
-											      if (genreInput != "") {
-
-													var found = false;
-													for (var i = 0; i < genreInput.length; i++) {
-													    if (genreArr.indexOf(genreInput[i]) > -1) {
-													        found = true;
-													        break;
-													    }
-													}
-
-											      	if (found) {
-											      		var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
-													      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
-													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
-													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
-													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
-													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
-
-													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
-													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
-											      	}
-
-											      }	
-
-
-											      else {     
-													      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
-													      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
-													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
-													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
-													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
-													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
-
-													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
-													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
-													      
-
-													   //    var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
-
-													   //    var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
-														  // var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
-														  // var newGenre = $("<p>").addClass("movie-genre").text(genreArr.join(", ")).appendTo(newMovieInfoDiv);
-													      
-													   //    var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
-
-													   //    for (var i=0; i<freeWebSources.length; i++) {
 					
-															 //      var newFreeLinkLogo = $("<a>").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
-															 //      $("<img>").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
-			  											//   }
+											      	// Build if genre was inputed, else build as normal
+												      if (genreInput != "") {
 
-													   //    for (var i=0; i<paidWebSources.length; i++) {
-															      
-													   //    		if (paidWebSources[i].source.indexOf("netflix") > -1) {
-															 //      var newNetflixLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
-															 //      $("<img>").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
-															 //    }
+														var found = false;
+														for (var i = 0; i < genreInput.length; i++) {
+														    if (genreArr.indexOf(genreInput[i]) > -1) {
+														        found = true;
+														        break;
+														    }
+														}
 
-															 //    if (paidWebSources[i].source.indexOf("amazon") > -1) {
-															 //      var newAmazonLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
-															 //      $("<img>").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
-															 //    }
-															     
-															 //    if (paidWebSources[i].source.indexOf("hulu") > -1) {
-															 //      var newHuluLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
-															 //      $("<img>").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
-															 //    }
+												      	if (found) {
+												      		var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
+														      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
+														      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
+														      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
+														      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
+														      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources)).attr("duration", duration);
 
-														  // }
+														      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
+														      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
+												      	}
+
+												      }	
 
 
-															 //      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
-															 //      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
-															 //      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
+												      else {     
+														      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
+														      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
+														      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
+														      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
+														      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
+														      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
 
-												      
-												      
-											  	  } // closing else statement
-											  	} // closing if statement
-										    }); // closing outer ajax call done function
-					      	}); // closing inner ajax call done function
-				} // closing for loop
+														      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
+														      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
+														      
+
+														   //    var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
+
+														   //    var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+															  // var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+															  // var newGenre = $("<p>").addClass("movie-genre").text(genreArr.join(", ")).appendTo(newMovieInfoDiv);
+														      
+														   //    var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
+
+														   //    for (var i=0; i<freeWebSources.length; i++) {
+						
+																 //      var newFreeLinkLogo = $("<a>").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
+																 //      $("<img>").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
+				  											//   }
+
+														   //    for (var i=0; i<paidWebSources.length; i++) {
+																      
+														   //    		if (paidWebSources[i].source.indexOf("netflix") > -1) {
+																 //      var newNetflixLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
+																 //      $("<img>").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
+																 //    }
+
+																 //    if (paidWebSources[i].source.indexOf("amazon") > -1) {
+																 //      var newAmazonLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
+																 //      $("<img>").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
+																 //    }
+																     
+																 //    if (paidWebSources[i].source.indexOf("hulu") > -1) {
+																 //      var newHuluLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
+																 //      $("<img>").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
+																 //    }
+
+															  // }
+
+
+																 //      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+																 //      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+																 //      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
+
+													      
+													      
+												  	  } // closing else statement
+												  	} // closing if statement
+											    }); // closing outer ajax call done function
+						      	}); // closing inner ajax call done function
+					} // closing for loop
 	} // closing buildMovieMenuItem function	
 
     // populate recommended results on start up
