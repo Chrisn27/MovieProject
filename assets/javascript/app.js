@@ -110,7 +110,7 @@ $(document).ready(function() {
                         email: user.email,
                         genre: JSON.stringify(userGenre)
                     });
-                    console.log(JSON.stringify(userGenre));
+                    //console.log(genre);
 
                     // Change Registration button text after successfully registered
                     var displaySuccess = 'Successfully Registered';
@@ -121,9 +121,23 @@ $(document).ready(function() {
 
                     // Clear last user
                     $('#current').empty();
+					
+					// Clear checked preferences
+					//$.attr('data-genre').find('input:checkbox').val('');
+					//$.attr('data-genre').find('input:checkbox').empty();
 
                     setProfile(email);
                     setUser(email);
+					
+					// Send user verification email
+					var currentUser = firebase.auth().currentUser;
+					currentUser.sendEmailVerification().then(function() {
+						// Prompt user that email was sent
+						var div = $('<br><div>Please check your inbox and verify your email address.</div>');
+						$('#email-confirm').append(div);
+					}, function(error) {
+						// An error happened.
+					});
                 })
                 .catch(function(err) {
                     console.error(err);

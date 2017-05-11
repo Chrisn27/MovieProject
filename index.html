@@ -28,6 +28,7 @@
             <ul class="side-nav" id="mobile-demo">
                 <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
                 <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
+				<li><a class="waves-effect waves-light" href="#modal-profile">Profile</a></li>
             </ul>
             <ul id="dropdown1" class="dropdown-content">
                 <li><a href="#!" class="genreDropdownItem">Action</a></li>
@@ -135,7 +136,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s12" id="genre-pref">
+                        <form class="input-field col s12" id="genre-pref">
                             <h5>Preferences</h5>
                             <p>
                                 <input type="checkbox" id="pref-action" data-genre="action" />
@@ -169,10 +170,11 @@
                                 <input type="checkbox" id="pref-scifi" data-genre="scifi" />
                                 <label for="pref-scifi">Sci-Fi</label>
                             </p>
-                        </div>
+                        </form>
                     </div>
                     <button class="waves-effect waves-light btn" type="submit" id="register-submit">Register</button>
                     <button class="waves-effect waves-light btn" type="submit" id="register-close">Close</button>
+					<div id="email-confirm"></div>
                 </form>
             </div>
         </div>
@@ -209,16 +211,17 @@
             <div class="row">
                 <form class="col s12" id="profile-form">
                     <div class="row">
-                        <div class="row">
+                        <!-- <div class="row"> -->
                             <div class="input-field col s12" id="profile-user">
                             </div>
-                        </div>
-                        <div class="row">
+                        <!-- </div> -->
+                        <!-- <div class="row"> -->
                             <div class="input-field col s12">
                                 <input id="profile-password" type="password" class="validate">
                                 <label for="password">Edit Password</label>
                             </div>
-                        </div>
+                        <!-- </div> -->
+						
 						<div class="input-field col s12" id="genre-pref-edit">
 							<h5>Edit Preferences</h5>
 								<p>
@@ -255,9 +258,9 @@
 								</p>
 						</div>
                     </div>
-                    <button class="waves-effect waves-light btn" type="submit" id="profile-save">Save</button>
-                    <button class="waves-effect waves-light btn" type="submit" id="profile-cancel">Cancel</button>
-                </form>
+					<button class="waves-effect waves-light btn" type="submit" id="profile-save">Save</button>
+					<button class="waves-effect waves-light btn" type="submit" id="profile-cancel">Cancel</button>
+				</form>
             </div>
         </div>
     </div>
