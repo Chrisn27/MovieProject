@@ -8,8 +8,6 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chrisflix</title>
 </head>
@@ -33,7 +31,7 @@
             </ul>
             <ul id="dropdown1" class="dropdown-content">
                 <li><a href="#!" class="genreDropdownItem">Action</a></li>
-                <li><a href="#!" class="genreDropdownItem">Animated</a></li>
+                <li><a href="#!" class="genreDropdownItem">Animation</a></li>
                 <li><a href="#!" class="genreDropdownItem">Comedy</a></li>
                 <li><a href="#!" class="genreDropdownItem">Drama</a></li>
                 <li><a href="#!" class="genreDropdownItem">Fantasy</a></li>
@@ -41,64 +39,63 @@
                 <li><a href="#!" class="genreDropdownItem">Romance</a></li>
                 <li><a href="#!" class="genreDropdownItem">Science-Fiction</a></li>
             </ul>
-            <img class="brand-logo center chrisflix" src="assets/images/logo.png">
+            <img class="brand-logo center chrisflix" src="assets/images/logo.png" alt="logo">
             <ul class="right">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
             </ul>
         </div>
     </nav>
     <div class="container">
-        <form class="col s12">
-            <div class="row search">
-                <div class="col s10">
-                    <div class="input-field nav-search center-align">
-                        <input id="search" type="search" placeholder="search" required>
-                        <label class="label-icon" for="search"><i class="material-icons"></i></label>
+        <div id="search-function" class="row">
+            <div class="col s12 m10">
+                <div class="input-field nav-search center-align">
+                    <input id="search" type="text" placeholder="By Movie Title" required>
+                    <label class="active" for="search">Search</label>
+                </div>
+            </div>
+            <div class="col s1">
+                <button class="btn waves-effect waves-light searchbtn black" type="search" name="action">
+                    <i class="large material-icons">search</i>
+                </button>
+            </div>
+        </div>
+        <!-- Results appended here -->
+        <div class="row">
+            <div id="movie-container" class="col s12 m12">
+                <div class="wrapper">
+                    <h5>Results</h5>
+                    <div class="searchResults">
+                        <!-- -->
+                        <div class="movieMenuDiv">
+                            <div class="movie-info">
+                            </div>
+                            <div class="movie-sources">
+                            </div>
+                        </div>
+                        <!-- -->
+                    </div>
+                    <h5>Recommended</h5>
+                    <!-- TODO: change to IDs -->
+                    <div class="recommendedResults">
                     </div>
                 </div>
-                <div class="col s1">
-                    <button class="btn waves-effect waves-light searchbtn black" type="search" name="action">
-                        <i class="large material-icons">search</i>
-                    </button>
-                </div>
+                <!-- Close Container -->
             </div>
-        </form>
-        <!-- Results appended here -->
-        <h5 class="center-align">Results</h5>
-        <div class="searchResults">
-            <div class="movieMenuDiv">
-                <!-- Modal Trigger -->
-                <a class="waves-effect waves-light" href="#modal1"><img class="moviePoster" src=http://static-api.guidebox.com/111615/thumbnails_movies_medium/137176-7158916946-4013497001-6251401533-medium-240x342-alt-.jpg></a>
-                <!-- Subscription Sources -->
-                <div class="movie-info">
-                    <p class="movie-title">Movie Title</p>
-                    <p class="movie-year">year placeholder</p>
-                    <p class="movie-genre">genre placeholder</p>
-                </div>
-                <div class="movie-sources">
-                    <img src="assets/images/netflix.png">
-                    <img src="assets/images/amazon.png">
-                    <img src="assets/images/hulu.png">
-                </div>
-            </div>
-        </div>
-        <h5 class="center-align">Recommended</h5>
-        <div class="recommendedResults">
         </div>
     </div>
-    <!-- Close Container -->
     <div class="row">
         <!-- Modal Movie Info -->
         <div id="modal1" class="modal">
             <div class="modal-content">
                 <div class="col s12 m4">
-                    <img class="modal-movie-poster">
+                    <img class="modal-movie-poster" alt="poster">
                 </div>
                 <div id="movie-content" class="col s12 m8">
                     <h4 class="modal-movie-title">Movie Title</h4>
                     <p class="modal-movie-year">20XX</p>
                     <p class="modal-movie-genre">Genre Placeholder</p>
                     <p class="modal-movie-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p id="modal-movie-duration">Duration:</p>
                     <p id="modal-movie-stars">Starring:</p>
                     <p id="modal-metascore">Metascore:</p>
                     <!-- Subscription Sources -->

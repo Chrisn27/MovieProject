@@ -11,13 +11,23 @@ nav {
 	background-color: red;
 }
 
+.linkLogo {
+	height: 50px;
+}
+
 .movieMenuDiv {
 	float: left;
 	margin: 5px;
 }
 
 .moviePoster {
-	height: 300px;
+	height: 350px;
+}
+
+
+.movie-info {
+	position: relative;
+	bottom: 146px;
 }
 
 .modal-movie-poster {
@@ -38,6 +48,7 @@ nav {
 	font-weight: bold;
 	color: white;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	background-color:rgba(255,255,255,0.3);
 	background-color:rgba(0,0,0,0.7);
 	z-index: 1;
 	padding: 10px;
@@ -55,14 +66,23 @@ nav {
 	visibility: visible;
 }
 
-/**/
-
 h5 {
 	clear: both;
 }
 
-.search {
-	margin-top: 13px;
+.searchbtn {
+	margin-top: 10px;
+}
+
+.wrapper {
+	margin-left: 10px;
+	position: relative;
+	top: 20px;
+}
+
+#search-function {
+	position: relative;
+	top: 20px;
 }
 
 @media only screen and (max-width: 768px) {
