@@ -326,8 +326,8 @@ $(document).ready(function(){
     	$(".modal-movie-poster").attr("src", posterUrl);
     	$(".modal-movie-genre").text(genre);
     	$(".modal-movie-description").text(description);
-    	$("#modal-movie-stars").text("Cast: " + cast + "...");
-    	$("#modal-metascore").text("Metascore: " + metascore);
+    	$("#modal-movie-stars").html("<strong>Cast:</strong> " + cast + "...");
+    	$("#modal-metascore").html("<strong>Metascore:</strong> " + metascore);
 
 		$(".modal-movie-sources").empty();
 
