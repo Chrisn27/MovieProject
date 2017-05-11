@@ -235,7 +235,7 @@ $(document).ready(function(){
 													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
 													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
 													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
-													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources)).attr("data-duration", duration);
 
 													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
 													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
@@ -250,7 +250,7 @@ $(document).ready(function(){
 													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
 													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
 													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
-													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources)).attr("data-duration", duration);
 
 													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
 													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
@@ -320,12 +320,16 @@ $(document).ready(function(){
     	var paidWebSources = $(this).data("subwebsources");
     	var freeWebSources = $(this).data("freewebsources");
     	var purchaseWebSources = $(this).data("purchasewebsources");
+    	var duration = parseInt($(this).data("duration"));
+    	console.log(duration);
+    	var durationMin = duration/60;
 
     	$(".modal-movie-title").text(title);
     	$(".modal-movie-year").text(year);
     	$(".modal-movie-poster").attr("src", posterUrl);
     	$(".modal-movie-genre").text(genre);
     	$(".modal-movie-description").text(description);
+    	$("#modal-movie-duration").html("<strong>Duration:</strong> " + durationMin + " min");
     	$("#modal-movie-stars").html("<strong>Cast:</strong> " + cast + "...");
     	$("#modal-metascore").html("<strong>Metascore:</strong> " + metascore);
 
