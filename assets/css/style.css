@@ -77,14 +77,20 @@ h5 {
 }
 
 .wrapper {
-	margin-left: 10px;
+	margin-left: 5px;
 	position: relative;
 	top: 20px;
+	left: 45px;
 }
 
 #search-function {
 	position: relative;
 	top: 20px;
+}
+
+#image-container{
+	position: relative;
+	left: -50px;
 }
 
 @media only screen and (max-width: 768px) {
