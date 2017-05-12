@@ -41,7 +41,7 @@ nav {
 	left: 100px;*/
 }
 
-/*
+
 .movie-info {
 	position: relative;
 	bottom: 170px;
@@ -49,23 +49,11 @@ nav {
 	font-weight: bold;
 	color: white;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-<<<<<<< HEAD
-<<<<<<< HEAD
 	background-color:rgba(255,255,255,0.3);
-=======
-	background-color:rgba(0,0,0,0.7);
-	z-index: 1;
->>>>>>> 184fe5e1002998027ca9f4e4a4599ddb7dbc0259
-=======
-	background-color:rgba(255,255,255,0.3);
-	background-color:rgba(0,0,0,0.7);
-	z-index: 1;
->>>>>>> 0a6c0126726e65ef115a0046f9e80553cfe18e32
 	padding: 10px;
 	width: 210px;
 	visibility: hidden
 }
-*/
 
 .movie-sources {
 	position: relative;
