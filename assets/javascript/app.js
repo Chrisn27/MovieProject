@@ -160,6 +160,9 @@ $(document).ready(function() {
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function(user) {
 
+                    // Prevent default
+                    event.preventDefault();
+
                     // Clear last user
                     $('#current').empty();
 
@@ -180,6 +183,22 @@ $(document).ready(function() {
                     //var currentGenre = db.ref('users/' + currentUser);
                     db.ref('users/' + currentUser + '/genre').once('value', function(snap) {
                         console.log('I fetched a user!', snap.val());
+
+
+                        $(".recommendedResults").empty();
+                        var genrePref = snap.val();
+                        genrePref = JSON.parse(genrePref);
+                        console.log(genrePref);
+
+                        for (var i=0; i<genrePref.length; i++) {
+                            var caps = genrePref[i];
+                            caps = caps.charAt(0).toUpperCase() + caps.slice(1);
+                            genrePref[i] = caps;
+                        }
+
+                        console.log(genrePref);
+
+                        buildInitialRecommendedResults(genrePref);
                     });
 
                 })
@@ -236,14 +255,14 @@ $(document).ready(function() {
 //--------------------------------------------------------------------
 
 	// global variables
-	var limit = "20";
+	var limit = "10";
 	var castLimit = "10";
 	var userGenrePref = [];
 
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
 
-    var buildInitialRecommendedResults = function() {
+    var buildInitialRecommendedResults = function(genre) {
 		var url = "http://api-public.guidebox.com/v2/movies/";
 	        $.ajax({
 		        url: url,
@@ -257,7 +276,7 @@ $(document).ready(function() {
 		          console.log(result);
 		          var data = result.results;
 		          var location = ".recommendedResults"
-		          buildMovieMenuItem(data,location, "");
+		          buildMovieMenuItem(data,location,genre);
 	      	}); // closing outer ajax call done function
 	} // closes buildInitialRecommendedResults
 
@@ -456,7 +475,7 @@ $(document).ready(function() {
 	} // closing buildMovieMenuItem function	
 
     // populate recommended results on start up
-    buildInitialRecommendedResults();
+    buildInitialRecommendedResults("");
 
     // dynamically changes modal values depending on what movie is clicked
     $(document).on("click", ".movieMenuDiv", function(){
