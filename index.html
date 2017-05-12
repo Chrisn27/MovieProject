@@ -15,6 +15,38 @@
 <body>
     <nav>
         <!-- Navbar, Login, logo and Genre sorter -->
+
+
+    <div class="nav-wrapper">
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">        
+            <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
+            <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
+            <li><a class="waves-effect waves-light" href="#modal-profile">Profile</a></li>
+        </ul>
+
+        <ul class="side-nav" id="mobile-demo">
+            <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
+            <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
+        </ul>
+
+        <ul id="dropdown1" class="dropdown-content">
+            <li><a href="#!" class="genreDropdownItem">Action</a></li>
+            <li><a href="#!" class="genreDropdownItem">Animation</a></li>
+            <li><a href="#!" class="genreDropdownItem">Comedy</a></li>
+            <li><a href="#!" class="genreDropdownItem">Drama</a></li>
+            <li><a href="#!" class="genreDropdownItem">Fantasy</a></li>
+            <li><a href="#!" class="genreDropdownItem">Horror</a></li>
+            <li><a href="#!" class="genreDropdownItem">Romance</a></li>
+            <li><a href="#!" class="genreDropdownItem">Science-Fiction</a></li>
+        </ul>
+
+        <img class="brand-logo center chrisflix" src="assets/images/logo.PNG" alt="logo">
+        <ul class="right">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
+        </ul>
+    </div>
+
         <div class="nav-wrapper">
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="left hide-on-med-and-down">
@@ -40,11 +72,12 @@
                 <li><a href="#!" class="genreDropdownItem">Romance</a></li>
                 <li><a href="#!" class="genreDropdownItem">Science-Fiction</a></li>
             </ul>
-            <img class="brand-logo center chrisflix" src="assets/images/logo.png" alt="logo">
+  
             <ul class="right">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
             </ul>
         </div>
+
     </nav>
     <div class="container">
 
@@ -57,7 +90,7 @@
                 </div>
             </div>
             <div class="col s1">
-                <button class="btn waves-effect waves-light searchbtn black" type="search" name="action">
+                <button class="btn waves-effect waves-light searchbtn black" type="button" name="action">
                     <i class="large material-icons">search</i>
                 </button>
             </div>
@@ -92,7 +125,7 @@
         <div class="modal-content">
             <div class="row">
                 <div class="col s12 m4">
-                    <img class="modal-movie-poster" alt="poster">
+                    <img class="modal-movie-poster" src="#" alt="poster">
                 </div>
                 <div id="movie-content" class="col s12 m8">
                     <h4 class="modal-movie-title">Movie Title</h4>
@@ -117,10 +150,6 @@
         </div>
     </div>
 
-    </div>
-
-    </div>
-    </div>
     <!-- Modal Register -->
     <div id="modal-register" class="modal">
         <div class="modal-content">
@@ -145,7 +174,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <form class="input-field col s12" id="genre-pref">
+                        <div class="input-field col s12" id="genre-pref">
                             <h5>Preferences</h5>
                             <p>
                                 <input type="checkbox" id="pref-action" data-genre="action" />
@@ -179,7 +208,7 @@
                                 <input type="checkbox" id="pref-scifi" data-genre="scifi" />
                                 <label for="pref-scifi">Sci-Fi</label>
                             </p>
-                        </form>
+                        </div>
                     </div>
                     <button class="waves-effect waves-light btn" type="submit" id="register-submit">Register</button>
                     <button class="waves-effect waves-light btn" type="submit" id="register-close">Close</button>
@@ -187,7 +216,6 @@
                 </form>
             </div>
         </div>
-    </div>
     </div>
     <!-- Modal Login -->
     <div id="modal-login" class="modal">
