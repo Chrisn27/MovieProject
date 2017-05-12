@@ -15,6 +15,38 @@
 <body>
     <nav>
         <!-- Navbar, Login, logo and Genre sorter -->
+
+
+    <div class="nav-wrapper">
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">        
+            <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
+            <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
+            <li><a class="waves-effect waves-light" href="#modal-profile">Profile</a></li>
+        </ul>
+
+        <ul class="side-nav" id="mobile-demo">
+            <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
+            <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
+        </ul>
+
+        <ul id="dropdown1" class="dropdown-content">
+            <li><a href="#!" class="genreDropdownItem">Action</a></li>
+            <li><a href="#!" class="genreDropdownItem">Animation</a></li>
+            <li><a href="#!" class="genreDropdownItem">Comedy</a></li>
+            <li><a href="#!" class="genreDropdownItem">Drama</a></li>
+            <li><a href="#!" class="genreDropdownItem">Fantasy</a></li>
+            <li><a href="#!" class="genreDropdownItem">Horror</a></li>
+            <li><a href="#!" class="genreDropdownItem">Romance</a></li>
+            <li><a href="#!" class="genreDropdownItem">Science-Fiction</a></li>
+        </ul>
+
+        <img class="brand-logo center chrisflix" src="assets/images/logo.PNG" alt="logo">
+        <ul class="right">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
+        </ul>
+    </div>
+
         <div class="nav-wrapper">
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="left hide-on-med-and-down">
@@ -28,6 +60,7 @@
             <ul class="side-nav" id="mobile-demo">
                 <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
                 <li><a class="waves-effect waves-light" href="#modal-login">Sign In</a></li>
+				<li><a class="waves-effect waves-light" href="#modal-profile">Profile</a></li>
             </ul>
             <ul id="dropdown1" class="dropdown-content">
                 <li><a href="#!" class="genreDropdownItem">Action</a></li>
@@ -39,14 +72,17 @@
                 <li><a href="#!" class="genreDropdownItem">Romance</a></li>
                 <li><a href="#!" class="genreDropdownItem">Science-Fiction</a></li>
             </ul>
-            <img class="brand-logo center chrisflix" src="assets/images/logo.png" alt="logo">
+  
             <ul class="right">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Genre<i class="material-icons right"></i></a></li>
             </ul>
         </div>
+
     </nav>
     <div class="container">
+
         <div id="search-function" class="row">
+          <form>
             <div class="col s12 m10">
                 <div class="input-field nav-search center-align">
                     <input id="search" type="text" placeholder="By Movie Title" required>
@@ -54,10 +90,11 @@
                 </div>
             </div>
             <div class="col s1">
-                <button class="btn waves-effect waves-light searchbtn black" type="search" name="action">
+                <button class="btn waves-effect waves-light searchbtn black" type="button" name="action">
                     <i class="large material-icons">search</i>
                 </button>
             </div>
+          </form>
         </div>
         <!-- Results appended here -->
         <div class="row">
@@ -88,7 +125,7 @@
         <div class="modal-content">
             <div class="row">
                 <div class="col s12 m4">
-                    <img class="modal-movie-poster" alt="poster">
+                    <img class="modal-movie-poster" src="#" alt="poster">
                 </div>
                 <div id="movie-content" class="col s12 m8">
                     <h4 class="modal-movie-title">Movie Title</h4>
@@ -104,13 +141,15 @@
             </div>
         </div>
         <!-- end of modal row -->
+
         <div class="video-container"></div>
+
+    
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
     </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-    </div>
-    </div>
+
     <!-- Modal Register -->
     <div id="modal-register" class="modal">
         <div class="modal-content">
@@ -173,10 +212,10 @@
                     </div>
                     <button class="waves-effect waves-light btn" type="submit" id="register-submit">Register</button>
                     <button class="waves-effect waves-light btn" type="submit" id="register-close">Close</button>
+					<div id="email-confirm"></div>
                 </form>
             </div>
         </div>
-    </div>
     </div>
     <!-- Modal Login -->
     <div id="modal-login" class="modal">
@@ -209,54 +248,56 @@
             <div class="row">
                 <form class="col s12" id="profile-form">
                     <div class="row">
-                        <div class="row">
+                        <!-- <div class="row"> -->
                             <div class="input-field col s12" id="profile-user">
                             </div>
-                        </div>
-                        <div class="row">
+                        <!-- </div> -->
+                        <!-- <div class="row"> -->
                             <div class="input-field col s12">
                                 <input id="profile-password" type="password" class="validate">
                                 <label for="password">Edit Password</label>
                             </div>
-                        </div>
-                        <h5>Edit Preferences</h5>
-                                <p>
-                                    <input type="checkbox" id="Action" />
-                                    <label for="Action">Action</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Animation" />
-                                    <label for="Animation">Animation</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Comedy" />
-                                    <label for="Comedy">Comedy</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Drama" />
-                                    <label for="Drama">Drama</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Fantasy" />
-                                    <label for="Fantasy">Fantasy</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Horror" />
-                                    <label for="Horror">Horror</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Romance" />
-                                    <label for="Romance">Romance</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Science-Fiction" />
-                                    <label for="Science-Fiction">Sci-Fi</label>
-                                </p>
-                        </form>
+                        <!-- </div> -->
+						
+						<div class="input-field col s12" id="genre-pref-edit">
+							<h5>Edit Preferences</h5>
+								<p>
+									<input type="checkbox" id="action" />
+									<label for="action">Action</label>
+								</p>
+								<p>
+									<input type="checkbox" id="animated" />
+									<label for="animated">Animated</label>
+								</p>
+								<p>
+									<input type="checkbox" id="comedy" />
+									<label for="comedy">Comedy</label>
+								</p>
+								<p>
+									<input type="checkbox" id="drama" />
+									<label for="drama">Drama</label>
+								</p>
+								<p>
+									<input type="checkbox" id="fantasy" />
+									<label for="fantasy">Fantasy</label>
+								</p>
+								<p>
+									<input type="checkbox" id="horror" />
+									<label for="horror">Horror</label>
+								</p>
+								<p>
+									<input type="checkbox" id="romance" />
+									<label for="romance">Romance</label>
+								</p>
+								<p>
+									<input type="checkbox" id="scifi" />
+									<label for="scifi">Sci-Fi</label>
+								</p>
+						</div>
                     </div>
-                    <button class="waves-effect waves-light btn" type="submit" id="profile-save">Save</button>
-                    <button class="waves-effect waves-light btn" type="submit" id="profile-cancel">Cancel</button>
-                </form>
+					<button class="waves-effect waves-light btn" type="submit" id="profile-save">Save</button>
+					<button class="waves-effect waves-light btn" type="submit" id="profile-cancel">Cancel</button>
+				</form>
             </div>
         </div>
     </div>

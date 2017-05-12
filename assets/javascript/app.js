@@ -184,6 +184,7 @@ $(document).ready(function() {
                     db.ref('users/' + currentUser + '/genre').once('value', function(snap) {
                         console.log('I fetched a user!', snap.val());
 
+
                         $(".recommendedResults").empty();
                         var genrePref = snap.val();
                         genrePref = JSON.parse(genrePref);
