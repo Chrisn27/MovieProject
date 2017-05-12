@@ -1,110 +1,237 @@
-$(document).ready(function(){
+$(document).ready(function() {
 
-	 $(".button-collapse").sideNav();
+        $('.modal').modal('close');
+        $(".button-collapse").sideNav();
 
-  //   $(".validate").validate({
-  //       rules: {
-  //           first_name: {
-  //               required: true
-  //           },
-  //           last_name: {
-  //               required: true
-  //           },
-  //           password: {
-		// 		required: true,
-		// 		minlength: 5
-		// 	},
-		// 	cpassword: {
-		// 		required: true,
-		// 		minlength: 5,
-		// 		equalTo: "#password"
-		// 	},
-  //           email: {
-		// 		required: true,
-  //               email:true
-		// 	},
-		// },
-  //       //For custom messages
-  //       messages: {
-  //           first_name:{
-  //               required: "Enter a first name"
-  //           },
-  //           last_name:{
-  //           	required: "Enter a last name",
-  //               minlength: "Enter at least 5 characters"
-  //           },
-	 //        errorElement : 'div',
-	 //        errorPlacement: function(error, element) {
-	 //          var placement = $(element).data('error');
-	 //          if (placement) {
-	 //            $(placement).append(error)
-	 //          } else {
-	 //            error.insertAfter(element);
-	 //          }
-	 //       	}
-	 //      }
-	 //   	});
+        //   $(".validate").validate({
+        //       rules: {
+        //           first_name: {
+        //               required: true
+        //           },
+        //           last_name: {
+        //               required: true
+        //           },
+        //           password: {
+        // 		required: true,
+        // 		minlength: 5
+        // 	},
+        // 	cpassword: {
+        // 		required: true,
+        // 		minlength: 5,
+        // 		equalTo: "#password"
+        // 	},
+        //           email: {
+        // 		required: true,
+        //               email:true
+        // 	},
+        // },
+        //       //For custom messages
+        //       messages: {
+        //           first_name:{
+        //               required: "Enter a first name"
+        //           },
+        //           last_name:{
+        //           	required: "Enter a last name",
+        //               minlength: "Enter at least 5 characters"
+        //           },
+        //        errorElement : 'div',
+        //        errorPlacement: function(error, element) {
+        //          var placement = $(element).data('error');
+        //          if (placement) {
+        //            $(placement).append(error)
+        //          } else {
+        //            error.insertAfter(element);
+        //          }
+        //       	}
+        //      }
+        //   	});
 
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU",
-    authDomain: "movie-app-a7a97.firebaseapp.com",
-    databaseURL: "https://movie-app-a7a97.firebaseio.com",
-    projectId: "movie-app-a7a97",
-    storageBucket: "movie-app-a7a97.appspot.com",
-    messagingSenderId: "894283834871"
-  };
-  firebase.initializeApp(config);
+        // -----------------------------------------------------------------------------------------------------
+        // Initialize Firebase
+        var config = {
+            apiKey: 'AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU',
+            authDomain: 'movie-app-a7a97.firebaseapp.com',
+            databaseURL: 'https://movie-app-a7a97.firebaseio.com',
+            projectId: 'movie-app-a7a97',
+            storageBucket: 'movie-app-a7a97.appspot.com',
+            messagingSenderId: '894283834871'
+        };
+        firebase.initializeApp(config);
 
-  // Create a variable to reference the database.
-  var db = firebase.database();
+        // Create a variable to reference the database.
+        var db = firebase.database();
+        var userGenre = [];
 
-	$('#register-submit').on("click", function(event) {
-		event.preventDefault();
-		alert("eyyy")
-		//userID = $("#user").val().trim();
-		var password = $("#password").val().trim();
-		var cpassword = $("#cpassword").val().trim();
-		var email = $("#email").val().trim();;
+        // Display current user created/logged-in (Nav bar)
+        function setUser(email) {
+            // Add current user email to nav bar
+            var currentUser = $('<li id="current"><a class="waves-effect waves-light">').text(email);
 
-		// console.log(password);
-		// console.log(cpassword);
-		// console.log(email);
+            // Style user email in color black
+            $(currentUser).css({
+                color: 'black',
+            });
 
-		firebase.auth().createUserWithEmailAndPassword(email, password)
-		.then(function(user) {
-			console.log("inside createUserWithEmailAndPassword");
-			// logUser(user);
-			$('#modal-register').modal('close');
-		})
-		.catch(function(err) {
-			var errorCode = err.code;
-  			var errorMessage = err.message;
+            // Append currentUser to navbar placeholder = #current
+            $('#current').append(currentUser);
+        }
 
-  			// add error handling for (existing user, pw < 4 and pw comparison)
-			console.log("Data not saved " + errorCode + errorMessage);	
-		})
+        // Display current user created/logged-in (Profile form)
+        function setProfile(email) {
+			// Clear last user
+			$('#profile-user').empty();
+			
+            // Add current user email to profile form
+            var currentUser = $('<label for="disabled">Current User</label><br>').text('Profile: ' + email);
 
-	});
-	
-	// //firebase.auth().curentUser to get current user info
-	// ((function){
+            // Append currentUser to Profile placeholder = #profile-user
+            $('#profile-user').append(currentUser);
+        }
 
-	// })();
-	
-	$('#login-submit').on("click", function(event) { 
-		event.preventDefault();
-		var password = $("#login-password").val().trim();
-		var email = $("#login-email").val().trim();
-		firebase.auth().signInWithEmailAndPassword(email, password)
-		.then(function(user) {
-			console.log(user);
-			$('#modal-login').modal('close');	
-		})
-		.catch(function(err) {
-			console.error(err);
-		})
-	});
+        // When Register Submit clicked, store email and password into variables
+        $('#register-submit').on('click', function(event) {
+            event.preventDefault();
+
+            var email = $('#email').val().trim();
+            var password = $('#password').val().trim();
+            var cpassword = $('#cpassword').val().trim();
+
+            // Call firebase auth to set user in Auth db
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+
+            // After user in Auth db, use Auth UID and store into Firebase db
+            .then(function(user) {
+
+                    $('#genre-pref input:checked').each(function() {
+                        userGenre.push($(this).attr('data-genre'));
+                    });
+                    db.ref('/users/' + user.uid).set({
+                        id: user.uid,
+                        email: user.email,
+                        genre: JSON.stringify(userGenre)
+                    });
+                    //console.log(genre);
+
+                    // Change Registration button text after successfully registered
+                    var displaySuccess = 'Successfully Registered';
+                    $('#register-submit').text(displaySuccess);
+
+                    // Clear form when after successfully registered
+                    $('#register-form').find('input:text, input:password').val('');
+
+                    // Clear last user
+                    $('#current').empty();
+					
+					// Clear checked preferences
+					//$.attr('data-genre').find('input:checkbox').val('');
+					//$.attr('data-genre').find('input:checkbox').empty();
+
+                    setProfile(email);
+                    setUser(email);
+					
+					// Send user verification email
+					var currentUser = firebase.auth().currentUser;
+					currentUser.sendEmailVerification().then(function() {
+						// Prompt user that email was sent
+						var div = $('<br><div>Please check your inbox and verify your email address.</div>');
+						$('#email-confirm').append(div);
+					}, function(error) {
+						// An error happened.
+					});
+                })
+                .catch(function(err) {
+                    console.error(err);
+                    // .catch(function(err) {
+                    // 	var errorCode = err.code;
+                    //	var errorMessage = err.message;
+                    // add error handling for (existing user, pw < 4 and pw comparison)
+                    // 	console.log("Data not saved " + errorCode + errorMessage);	
+                })
+        });
+
+        // When Login Submit clicked, store email and password into variables
+        $('#login-submit').on('click', function(event) {
+            event.preventDefault();
+
+            var email = $('#login-email').val().trim();
+            var password = $('#login-password').val().trim();
+
+            // Call firebase auth to access user in Auth db
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(function(user) {
+
+                    // Clear last user
+                    $('#current').empty();
+
+                    // Change Login button text after successfully logged-in
+                    var displaySuccess = 'Successfully Logged-In';
+                    $('#login-submit').text(displaySuccess);
+					
+					// Clear form when after successfully registered
+                    $('#login-form').find('input:text, input:password').val('');
+					
+                    setProfile(email);
+                    setUser(email);
+
+                    // get user genre
+                    var currentUser = firebase.auth().currentUser.uid;
+                    console.log(currentUser);
+
+                    //var currentGenre = db.ref('users/' + currentUser);
+                    db.ref('users/' + currentUser + '/genre').once('value', function(snap) {
+                        console.log('I fetched a user!', snap.val());
+                    });
+
+                })
+                .catch(function(err) {
+                    console.error(err);
+                })
+        });
+
+        $('#profile-save').on('click', function(event) {
+            event.preventDefault();
+
+            var user = firebase.auth().currentUser;
+            var password = $('#profile-password').val().trim();
+            var newPassword = password;
+
+            user.updatePassword(newPassword).then(function() {
+                // Update successful.
+                console.log(password);
+            }, function(error) {
+                // An error happened.
+            });
+        });
+
+        // Clear & close Registration Modal when cancel clicked
+        // Reset Register button text 
+        $('#register-close').on('click', function(event) {
+            event.preventDefault();
+            $('#register-form').find('input:text, input:password').val('');
+            $('.modal').modal('close');
+            var displayRegister = 'Register';
+            $('#register-submit').text(displayRegister);
+        });
+
+        // Clear & close Login Modal when cancel clicked
+        // Reset Login button text 
+        $('#login-close').on('click', function(event) {
+            event.preventDefault();
+            $('#login-form').find('input:text, input:password').val('');
+            $('.modal').modal('close');
+            var displayLogin = 'Login';
+            $('#login-submit').text(displayLogin);
+        });
+
+        // Clear & close Profile Modal when cancel clicked
+        // Reset Save button text 
+        $('#profile-cancel').on('click', function(event) {
+            event.preventDefault();
+            $('#profile-form').find('input:text, input:password').val('');
+            $('.modal').modal('close');
+            var displaySave = 'Save';
+            $('#login-submit').text(displaySave);
+        });
 
 //--------------------------------------------------------------------
 
@@ -447,8 +574,6 @@ $(document).ready(function(){
 
     });
 
-
-
     // appends items to results div after search term and re-populates recommended results
     $(".searchbtn").on("click", function(){
 
@@ -531,4 +656,3 @@ $(document).ready(function(){
 }) // closes document.ready function
 
 // -----------------------------------------------------------------------------------------------------
-		
