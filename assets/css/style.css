@@ -1,3 +1,8 @@
+#currentUser {
+	color:'black';
+	margin: 10px;
+}
+
 .chrisflix {
 	height: 64px;
 }
@@ -16,7 +21,7 @@ nav {
 }
 
 .moviePoster {
-	height: 300px;
+	height: 350px;
 }
 
 
@@ -67,6 +72,22 @@ h5 {
 
 .searchbtn {
 	margin-top: 10px;
+}
+
+
+.video-container {
+	margin: 0 auto;
+}
+
+.wrapper {
+	margin-left: 10px;
+	position: relative;
+	top: 20px;
+}
+
+#search-function {
+	position: relative;
+	top: 20px;
 }
 
 @media only screen and (max-width: 768px) {

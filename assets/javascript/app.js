@@ -1,122 +1,267 @@
-$(document).ready(function(){
+$(document).ready(function() {
 
-	 $(".button-collapse").sideNav();
+        $('.modal').modal('close');
+        $(".button-collapse").sideNav();
 
-  //   $(".validate").validate({
-  //       rules: {
-  //           first_name: {
-  //               required: true
-  //           },
-  //           last_name: {
-  //               required: true
-  //           },
-  //           password: {
-		// 		required: true,
-		// 		minlength: 5
-		// 	},
-		// 	cpassword: {
-		// 		required: true,
-		// 		minlength: 5,
-		// 		equalTo: "#password"
-		// 	},
-  //           email: {
-		// 		required: true,
-  //               email:true
-		// 	},
-		// },
-  //       //For custom messages
-  //       messages: {
-  //           first_name:{
-  //               required: "Enter a first name"
-  //           },
-  //           last_name:{
-  //           	required: "Enter a last name",
-  //               minlength: "Enter at least 5 characters"
-  //           },
-	 //        errorElement : 'div',
-	 //        errorPlacement: function(error, element) {
-	 //          var placement = $(element).data('error');
-	 //          if (placement) {
-	 //            $(placement).append(error)
-	 //          } else {
-	 //            error.insertAfter(element);
-	 //          }
-	 //       	}
-	 //      }
-	 //   	});
+        //   $(".validate").validate({
+        //       rules: {
+        //           first_name: {
+        //               required: true
+        //           },
+        //           last_name: {
+        //               required: true
+        //           },
+        //           password: {
+        // 		required: true,
+        // 		minlength: 5
+        // 	},
+        // 	cpassword: {
+        // 		required: true,
+        // 		minlength: 5,
+        // 		equalTo: "#password"
+        // 	},
+        //           email: {
+        // 		required: true,
+        //               email:true
+        // 	},
+        // },
+        //       //For custom messages
+        //       messages: {
+        //           first_name:{
+        //               required: "Enter a first name"
+        //           },
+        //           last_name:{
+        //           	required: "Enter a last name",
+        //               minlength: "Enter at least 5 characters"
+        //           },
+        //        errorElement : 'div',
+        //        errorPlacement: function(error, element) {
+        //          var placement = $(element).data('error');
+        //          if (placement) {
+        //            $(placement).append(error)
+        //          } else {
+        //            error.insertAfter(element);
+        //          }
+        //       	}
+        //      }
+        //   	});
 
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU",
-    authDomain: "movie-app-a7a97.firebaseapp.com",
-    databaseURL: "https://movie-app-a7a97.firebaseio.com",
-    projectId: "movie-app-a7a97",
-    storageBucket: "movie-app-a7a97.appspot.com",
-    messagingSenderId: "894283834871"
-  };
-  firebase.initializeApp(config);
+        // -----------------------------------------------------------------------------------------------------
+        // Initialize Firebase
+        var config = {
+            apiKey: 'AIzaSyC-7FZ_F_b4hHhD-WOtgqty8Q8hsG-OKzU',
+            authDomain: 'movie-app-a7a97.firebaseapp.com',
+            databaseURL: 'https://movie-app-a7a97.firebaseio.com',
+            projectId: 'movie-app-a7a97',
+            storageBucket: 'movie-app-a7a97.appspot.com',
+            messagingSenderId: '894283834871'
+        };
+        firebase.initializeApp(config);
 
-  // Create a variable to reference the database.
-  var db = firebase.database();
+        // Create a variable to reference the database.
+        var db = firebase.database();
+        var userGenre = [];
 
-	$('#register-submit').on("click", function(event) {
-		event.preventDefault();
-		alert("eyyy")
-		//userID = $("#user").val().trim();
-		var password = $("#password").val().trim();
-		var cpassword = $("#cpassword").val().trim();
-		var email = $("#email").val().trim();;
+        // Display current user created/logged-in (Nav bar)
+        function setUser(email) {
+            // Add current user email to nav bar
+            var currentUser = $('<li id="current"><a class="waves-effect waves-light">').text(email);
 
-		// console.log(password);
-		// console.log(cpassword);
-		// console.log(email);
+            // Style user email in color black
+            $(currentUser).css({
+                color: 'black',
+            });
 
-		firebase.auth().createUserWithEmailAndPassword(email, password)
-		.then(function(user) {
-			console.log("inside createUserWithEmailAndPassword");
-			// logUser(user);
-			$('#modal-register').modal('close');
-		})
-		.catch(function(err) {
-			var errorCode = err.code;
-  			var errorMessage = err.message;
+            // Append currentUser to navbar placeholder = #current
+            $('#current').append(currentUser);
+        }
 
-  			// add error handling for (existing user, pw < 4 and pw comparison)
-			console.log("Data not saved " + errorCode + errorMessage);	
-		})
+        // Display current user created/logged-in (Profile form)
+        function setProfile(email) {
+			// Clear last user
+			$('#profile-user').empty();
+			
+            // Add current user email to profile form
+            var currentUser = $('<label for="disabled">Current User</label><br>').text('Profile: ' + email);
 
-	});
-	
-	// //firebase.auth().curentUser to get current user info
-	// ((function){
+            // Append currentUser to Profile placeholder = #profile-user
+            $('#profile-user').append(currentUser);
+        }
 
-	// })();
-	
-	$('#login-submit').on("click", function(event) { 
-		event.preventDefault();
-		var password = $("#login-password").val().trim();
-		var email = $("#login-email").val().trim();
-		firebase.auth().signInWithEmailAndPassword(email, password)
-		.then(function(user) {
-			console.log(user);
-			$('#modal-login').modal('close');	
-		})
-		.catch(function(err) {
-			console.error(err);
-		})
-	});
+        // When Register Submit clicked, store email and password into variables
+        $('#register-submit').on('click', function(event) {
+            event.preventDefault();
+
+            var email = $('#email').val().trim();
+            var password = $('#password').val().trim();
+            var cpassword = $('#cpassword').val().trim();
+
+            // Call firebase auth to set user in Auth db
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+
+            // After user in Auth db, use Auth UID and store into Firebase db
+            .then(function(user) {
+
+                    $('#genre-pref input:checked').each(function() {
+                        userGenre.push($(this).attr('data-genre'));
+                    });
+                    db.ref('/users/' + user.uid).set({
+                        id: user.uid,
+                        email: user.email,
+                        genre: JSON.stringify(userGenre)
+                    });
+                    //console.log(genre);
+
+                    // Change Registration button text after successfully registered
+                    var displaySuccess = 'Successfully Registered';
+                    $('#register-submit').text(displaySuccess);
+
+                    // Clear form when after successfully registered
+                    $('#register-form').find('input:text, input:password').val('');
+
+                    // Clear last user
+                    $('#current').empty();
+					
+					// Clear checked preferences
+					//$.attr('data-genre').find('input:checkbox').val('');
+					//$.attr('data-genre').find('input:checkbox').empty();
+
+                    setProfile(email);
+                    setUser(email);
+					
+					// Send user verification email
+					var currentUser = firebase.auth().currentUser;
+					currentUser.sendEmailVerification().then(function() {
+						// Prompt user that email was sent
+						var div = $('<br><div>Please check your inbox and verify your email address.</div>');
+						$('#email-confirm').append(div);
+					}, function(error) {
+						// An error happened.
+					});
+                })
+                .catch(function(err) {
+                    console.error(err);
+                    // .catch(function(err) {
+                    // 	var errorCode = err.code;
+                    //	var errorMessage = err.message;
+                    // add error handling for (existing user, pw < 4 and pw comparison)
+                    // 	console.log("Data not saved " + errorCode + errorMessage);	
+                })
+        });
+
+        // When Login Submit clicked, store email and password into variables
+        $('#login-submit').on('click', function(event) {
+            event.preventDefault();
+
+            var email = $('#login-email').val().trim();
+            var password = $('#login-password').val().trim();
+
+            // Call firebase auth to access user in Auth db
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(function(user) {
+
+                    // Prevent default
+                    event.preventDefault();
+
+                    // Clear last user
+                    $('#current').empty();
+
+                    // Change Login button text after successfully logged-in
+                    var displaySuccess = 'Successfully Logged-In';
+                    $('#login-submit').text(displaySuccess);
+					
+					// Clear form when after successfully registered
+                    $('#login-form').find('input:text, input:password').val('');
+					
+                    setProfile(email);
+                    setUser(email);
+
+                    // get user genre
+                    var currentUser = firebase.auth().currentUser.uid;
+                    console.log(currentUser);
+
+                    //var currentGenre = db.ref('users/' + currentUser);
+                    db.ref('users/' + currentUser + '/genre').once('value', function(snap) {
+                        console.log('I fetched a user!', snap.val());
+
+                        $(".recommendedResults").empty();
+                        var genrePref = snap.val();
+                        genrePref = JSON.parse(genrePref);
+                        console.log(genrePref);
+
+                        for (var i=0; i<genrePref.length; i++) {
+                            var caps = genrePref[i];
+                            caps = caps.charAt(0).toUpperCase() + caps.slice(1);
+                            genrePref[i] = caps;
+                        }
+
+                        console.log(genrePref);
+
+                        buildInitialRecommendedResults(genrePref);
+                    });
+
+                })
+                .catch(function(err) {
+                    console.error(err);
+                })
+        });
+
+        $('#profile-save').on('click', function(event) {
+            event.preventDefault();
+
+            var user = firebase.auth().currentUser;
+            var password = $('#profile-password').val().trim();
+            var newPassword = password;
+
+            user.updatePassword(newPassword).then(function() {
+                // Update successful.
+                console.log(password);
+            }, function(error) {
+                // An error happened.
+            });
+        });
+
+        // Clear & close Registration Modal when cancel clicked
+        // Reset Register button text 
+        $('#register-close').on('click', function(event) {
+            event.preventDefault();
+            $('#register-form').find('input:text, input:password').val('');
+            $('.modal').modal('close');
+            var displayRegister = 'Register';
+            $('#register-submit').text(displayRegister);
+        });
+
+        // Clear & close Login Modal when cancel clicked
+        // Reset Login button text 
+        $('#login-close').on('click', function(event) {
+            event.preventDefault();
+            $('#login-form').find('input:text, input:password').val('');
+            $('.modal').modal('close');
+            var displayLogin = 'Login';
+            $('#login-submit').text(displayLogin);
+        });
+
+        // Clear & close Profile Modal when cancel clicked
+        // Reset Save button text 
+        $('#profile-cancel').on('click', function(event) {
+            event.preventDefault();
+            $('#profile-form').find('input:text, input:password').val('');
+            $('.modal').modal('close');
+            var displaySave = 'Save';
+            $('#login-submit').text(displaySave);
+        });
 
 //--------------------------------------------------------------------
 
 	// global variables
-	var limit = "20";
+	var limit = "10";
 	var castLimit = "10";
 	var userGenrePref = [];
 
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
 
-    var buildInitialRecommendedResults = function() {
+    var buildInitialRecommendedResults = function(genre) {
 		var url = "http://api-public.guidebox.com/v2/movies/";
 	        $.ajax({
 		        url: url,
@@ -130,181 +275,206 @@ $(document).ready(function(){
 		          console.log(result);
 		          var data = result.results;
 		          var location = ".recommendedResults"
-		          buildMovieMenuItem(data,location, "");
+		          buildMovieMenuItem(data,location,genre);
 	      	}); // closing outer ajax call done function
 	} // closes buildInitialRecommendedResults
 
 	var buildMovieMenuItem = function(data, location, genre) {
 
-		var genreInput = genre;
+	var genreInput = genre;
 
-		for (var j=0; j<data.length; j++) {
+	for (var j=0; j<data.length; j++) {
 
-				          var title = data[j].original_title;
-				          var posterUrl = data[j].poster_400x570;
-				          var year =  data[j].release_year;
-				          var movieId = data[j].id;
-				          var imdbId = data[j].imdb;
+			          var title = data[j].original_title;
+			          var posterUrl = data[j].poster_400x570;
+			          var year =  data[j].release_year;
+			          var movieId = data[j].id;
+			          var imdbId = data[j].imdb;
 
-		          				var urlId = "http://api-public.guidebox.com/v2/movies/" + movieId;
-						        $.ajax({
-						        	async: false,
-							        url: urlId,
-							        method: 'GET',
-							        data: {
-							        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
-							        }
-						        }).done(function(result) {
-							          console.log(result);
 
-							          var description = result.overview;
+	          				var urlId = "http://api-public.guidebox.com/v2/movies/" + movieId;
+					        $.ajax({
+					        	async: false,
+						        url: urlId,
+						        method: 'GET',
+						        data: {
+						        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+						        }
+					        }).done(function(result) {
+						          console.log(result);
 
-							          var genre = result.genres;
+						          var description = result.overview;
 
-								      // sources obj has display name, link, and source eg.
-										// display_name:"HBO (Via Amazon Prime)"
-										// link:"http://www.amazon.com/gp/product/B01J7YLPGM?spp=hbo"
-										// source:"hbo_amazon_prime"
+						          var genre = result.genres;
 
-									  var paidWebSources = result.subscription_web_sources;
-							          var freeWebSources = result.free_web_sources;
-							          var purchaseWebSources = result.purchase_web_sources;
+							      // sources obj has display name, link, and source eg.
+									// display_name:"HBO (Via Amazon Prime)"
+									// link:"http://www.amazon.com/gp/product/B01J7YLPGM?spp=hbo"
+									// source:"hbo_amazon_prime"
 
-							          // duration movie is in seconds
-							          var duration = result.duration;
+								  var paidWebSources = result.subscription_web_sources;
+						          var freeWebSources = result.free_web_sources;
+						          var purchaseWebSources = result.purchase_web_sources;	
 
-							          // extract cast names from cast result array
-							          var cast = result.cast;
-							          var castArr = [];
-							          	for (var i=0; i<castLimit; i++) {
-							          		castArr.push(cast[i].name)
-							          	}
 
-								      var tags = result.tags;
+						          var trailer = result.trailers.web;
+						          var trailerArr = [];
+						          	for (var i=0; i<trailer.length; i++) {
+						          		trailerArr.push(trailer[i].embed)
+						          	}
 
-							          console.log("description: " + description);
-							          console.log("genre: " + JSON.stringify(genre));
-							          console.log("freeWebSources: " + JSON.stringify(freeWebSources));
-							          console.log("paidWebSources: " + JSON.stringify(paidWebSources));
-							          console.log("duration (sec): " + duration);
-							          
-							          // console.log("cast: " + JSON.stringify(cast) + "...");
+						          // duration movie is in seconds
+						          var duration = result.duration;
 
-							              // omdb search function uing imdb id from guidebox
-											    $.ajax({
-											      async: false,
-											      url: "http://www.omdbapi.com/?",
-											      method: "GET",
-											      data: {
-											      		// imdb id for suicide squad taken from guidebox
-											        	"i": imdbId,
-											        }
-											    }).done(function(response) {
-											      // console.log(response);
+						          // extract cast names from cast result array
+						          var cast = result.cast;
+						          var castArr = [];
+						          	for (var i=0; i<castLimit; i++) {
+						          		castArr.push(cast[i].name)
+						          	}
 
-											      // score from metacritic
-											      metascore = response.Metascore;
-											      console.log("metascore: " + metascore);
-											      console.log("-------------------------------------------------------------------------------------");
+							      var tags = result.tags;
 
-											      // Extract genres from genreArray
-											      var genreArr = [];
-											      for (var i=0; i<genre.length; i++) {
-											      	genreArr.push(genre[i].title);
-											      }
+								  							      			  
+							      
 
-											      
-												  // Build html and append if there are actually free/subscription sources
-											      if (paidWebSources.length > 0 || freeWebSources.length > 0 || purchaseWebSources.length > 0) {
+						          console.log("description: " + description);
+						          console.log("genre: " + JSON.stringify(genre));
+						          console.log("freeWebSources: " + JSON.stringify(freeWebSources));
+						          console.log("paidWebSources: " + JSON.stringify(paidWebSources));
+						          console.log("duration (sec): " + duration);
+						          console.log("trailer " + trailer);
+						          console.log(trailerArr);
+						          // console.log("cast: " + JSON.stringify(cast) + "...");
 
+						              // omdb search function uing imdb id from guidebox
+										    $.ajax({
+										      async: false,
+										      url: "http://www.omdbapi.com/?",
+										      method: "GET",
+										      data: {
+										      		// imdb id for suicide squad taken from guidebox
+										        	"i": imdbId,
+										        }
+										    }).done(function(response) {
+										      // console.log(response);
+
+										      // score from metacritic
+										      metascore = response.Metascore;
+										      console.log("metascore: " + metascore);								   
+										      console.log("-------------------------------------------------------------------------------------");
+										      	      
+
+
+
+										      // Extract genres from genreArray
+										      var genreArr = [];
+										      for (var i=0; i<genre.length; i++) {
+										      	genreArr.push(genre[i].title);
+										      }
+
+										      
+											  // Build html and append if there are actually free/subscription sources
+										      if (paidWebSources.length > 0 || freeWebSources.length > 0 || purchaseWebSources.length > 0) {
+
+				
+										      	// Build if genre was inputed, else build as normal
+											      if (genreInput != "") {
+
+													var found = false;
+													for (var i = 0; i < genreInput.length; i++) {
+													    if (genreArr.indexOf(genreInput[i]) > -1) {
+													        found = true;
+													        break;
+													    }
+													}
+
+											      	if (found) {
+											      		var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
+													      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
+													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
+													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
+													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
+
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
+													      	newMovieMenuDiv.attr("data-trailers", trailerArr);
+
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources)).attr("data-duration", duration);
+
+
+													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
+													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
+											      	}
+
+											      }	
+
+
+											      else {     
+													      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
+													      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
+													      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
+													      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
+													      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
+
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
+													      	newMovieMenuDiv.attr("data-trailers", trailerArr);
+
+													      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources)).attr("data-duration", duration);
+
+
+													      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
+													      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
+													      
+
+													   //    var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
+
+													   //    var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+														  // var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+														  // var newGenre = $("<p>").addClass("movie-genre").text(genreArr.join(", ")).appendTo(newMovieInfoDiv);
+													      
+													   //    var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
+
+													   //    for (var i=0; i<freeWebSources.length; i++) {
 					
-											      	// Build if genre was inputed, else build as normal
-												      if (genreInput != "") {
+															 //      var newFreeLinkLogo = $("<a>").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
+															 //      $("<img>").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
+			  											//   }
 
-														var found = false;
-														for (var i = 0; i < genreInput.length; i++) {
-														    if (genreArr.indexOf(genreInput[i]) > -1) {
-														        found = true;
-														        break;
-														    }
-														}
+													   //    for (var i=0; i<paidWebSources.length; i++) {
+															      
+													   //    		if (paidWebSources[i].source.indexOf("netflix") > -1) {
+															 //      var newNetflixLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
+															 //      $("<img>").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
+															 //    }
 
-												      	if (found) {
-												      		var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
-														      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
-														      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
-														      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
-														      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
-														      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources)).attr("duration", duration);
+															 //    if (paidWebSources[i].source.indexOf("amazon") > -1) {
+															 //      var newAmazonLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
+															 //      $("<img>").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
+															 //    }
+															     
+															 //    if (paidWebSources[i].source.indexOf("hulu") > -1) {
+															 //      var newHuluLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
+															 //      $("<img>").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
+															 //    }
 
-														      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
-														      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
-												      	}
-
-												      }	
+														  // }
 
 
-												      else {     
-														      var newMovieMenuDiv = $("<div>").addClass("movieMenuDiv").attr("data-guideboxid", movieId).appendTo(location);
-														      	newMovieMenuDiv.attr("data-title", title).attr("data-genre", genreArr.join(", ")).attr("data-description", description);
-														      	newMovieMenuDiv.attr("data-posterurl", posterUrl).attr("data-year", year);
-														      	newMovieMenuDiv.attr("data-metascore", metascore).attr("data-cast", castArr.join(", "));
-														      	newMovieMenuDiv.attr("data-subwebsources", JSON.stringify(paidWebSources)).attr("data-freewebsources", JSON.stringify(freeWebSources));
-														      	newMovieMenuDiv.attr("data-purchasewebsources", JSON.stringify(purchaseWebSources));
+															 //      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
+															 //      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
+															 //      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
 
-														      var newAElement = $("<a>").addClass("waves-effect waves-light").attr("href", "#modal1").appendTo(newMovieMenuDiv);
-														      var newImg = $("<img>").addClass("moviePoster").attr("src", posterUrl).appendTo(newAElement);
-														      
-
-														   //    var newMovieInfoDiv = $("<div>").addClass("movie-info").appendTo(newMovieMenuDiv);
-
-														   //    var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
-															  // var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
-															  // var newGenre = $("<p>").addClass("movie-genre").text(genreArr.join(", ")).appendTo(newMovieInfoDiv);
-														      
-														   //    var newMovieSourceDiv = $("<div>").addClass("movie-sources").appendTo(newMovieInfoDiv);
-
-														   //    for (var i=0; i<freeWebSources.length; i++) {
-						
-																 //      var newFreeLinkLogo = $("<a>").attr("href", freeWebSources[i].link).appendTo($(".modal-movie-sources"));
-																 //      $("<img>").attr("src", "assets/images/free.png").appendTo(newFreeLinkLogo);
-				  											//   }
-
-														   //    for (var i=0; i<paidWebSources.length; i++) {
-																      
-														   //    		if (paidWebSources[i].source.indexOf("netflix") > -1) {
-																 //      var newNetflixLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
-																 //      $("<img>").attr("src", "assets/images/netflix.png").appendTo(newNetflixLinkLogo);
-																 //    }
-
-																 //    if (paidWebSources[i].source.indexOf("amazon") > -1) {
-																 //      var newAmazonLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
-																 //      $("<img>").attr("src", "assets/images/amazon.png").appendTo(newAmazonLinkLogo);
-																 //    }
-																     
-																 //    if (paidWebSources[i].source.indexOf("hulu") > -1) {
-																 //      var newHuluLinkLogo = $("<a>").attr("href", paidWebSources[i].link).appendTo(newMovieSourceDiv);
-																 //      $("<img>").attr("src", "assets/images/hulu.png").appendTo(newHuluLinkLogo);
-																 //    }
-
-															  // }
-
-
-																 //      var newTitle = $("<p>").addClass("movie-title").text(title).appendTo(newMovieInfoDiv);
-																 //      var newYear = $("<p>").addClass("movie-year").text(year).appendTo(newMovieInfoDiv);
-																 //      var newGenre = $("<p>").addClass("movie-genre").text(genreArr.toString()).appendTo(newMovieInfoDiv);
-
-													      
-													      
-												  	  } // closing else statement
-												  	} // closing if statement
-											    }); // closing outer ajax call done function
-						      	}); // closing inner ajax call done function
-					} // closing for loop
+												      
+												      
+											  	  } // closing else statement
+											  	} // closing if statement
+										    }); // closing outer ajax call done function
+					      	}); // closing inner ajax call done function
+				} // closing for loop
 	} // closing buildMovieMenuItem function	
 
     // populate recommended results on start up
-    buildInitialRecommendedResults();
+    buildInitialRecommendedResults("");
 
     // dynamically changes modal values depending on what movie is clicked
     $(document).on("click", ".movieMenuDiv", function(){
@@ -321,15 +491,25 @@ $(document).ready(function(){
     	var freeWebSources = $(this).data("freewebsources");
     	var purchaseWebSources = $(this).data("purchasewebsources");
 
+    	var trailer = $(this).data("trailers");
+    	console.log(trailer);
+
+    	var duration = parseInt($(this).data("duration"));
+    	console.log(duration);
+    	var durationMin = duration/60;
+
+
     	$(".modal-movie-title").text(title);
     	$(".modal-movie-year").text(year);
     	$(".modal-movie-poster").attr("src", posterUrl);
     	$(".modal-movie-genre").text(genre);
     	$(".modal-movie-description").text(description);
-    	$("#modal-movie-stars").text("Cast: " + cast + "...");
-    	$("#modal-metascore").text("Metascore: " + metascore);
+    	$("#modal-movie-duration").html("<strong>Duration:</strong> " + durationMin + " min");
+    	$("#modal-movie-stars").html("<strong>Cast:</strong> " + cast + "...");
+    	$("#modal-metascore").html("<strong>Metascore:</strong> " + metascore);
 
 		$(".modal-movie-sources").empty();
+		$(".video-container").empty();
 
     	for (var i=0; i<freeWebSources.length; i++) {
 			
@@ -404,9 +584,13 @@ $(document).ready(function(){
 	  		}
 	  	}
 
+	  		var embedTrailer = $("<iframe>").attr("src", trailer);
+	  		embedTrailer.attr("frameborder",0);
+	  	    embedTrailer.attr("allowfullscreen");	  		
+
+	  		$(".video-container").append(embedTrailer);
+
     });
-
-
 
     // appends items to results div after search term and re-populates recommended results
     $(".searchbtn").on("click", function(){
@@ -490,4 +674,3 @@ $(document).ready(function(){
 }) // closes document.ready function
 
 // -----------------------------------------------------------------------------------------------------
-		
