@@ -18,6 +18,9 @@ $(document).ready(function() {
         // Create a variable to reference the database.
         var db = firebase.database();
         var userGenre = [];
+        var count = 0;
+        var max = 1;
+        var flag = false;
 
         // Display current user created/logged-in (Nav bar)
         function setNav(email) {
@@ -55,6 +58,13 @@ $(document).ready(function() {
             //document.getElementById('checkbox').click();
         }
 
+        function clearErrors() {
+            $('#register-email-error').empty();
+            $('#register-pw-error').empty();
+            $('#login-email-error').empty();
+            $('#login-pw-error').empty();
+        }
+
         function loginToggle() {
             // Replace Sign-In to Sign-Out 
             $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Log-Out</a></li>');
@@ -65,6 +75,28 @@ $(document).ready(function() {
         function closeModal() {
             $('.modal').modal('close');
         }
+
+        function counter(count) {
+            if (count > max)
+                clearErrors();
+            count = 0;
+        }
+
+        $('#loginNav').on('click', function(event) {
+            console.log('inside loginNav flag and flag is: ' + flag);
+            if(flag) {
+                firebase.auth().signOut();
+                flag = false;
+            }
+        });
+
+        $('#loginDrop').on('click', function(event) {
+            console.log('inside loginNav flag and flag is: ' + flag);
+            if(flag) {
+                firebase.auth().signOut();
+                flag = false;
+            }
+        });
 
         // Store email and password into variables, upon click
         $('#register-submit').on('click', function(event) {
@@ -104,6 +136,8 @@ $(document).ready(function() {
                             setProfile(email);
                             // Close modal
                             closeModal();
+
+                            flag = true;
                         })
                         .catch(function(err) {
                             console.error(err);
@@ -129,17 +163,30 @@ $(document).ready(function() {
                 })
                 .catch(function(err) {
                     if (err.code === 'auth/email-already-in-use') {
+                        count++;
+                        counter(count);
                         var userExists = $('<div class="input-field col s12"><label></label></div>').text(err.message);
                         $('#register-email-error').append(userExists);
 
                     } else if (err.code === 'auth/weak-password') {
+                        count++;
+                        counter(count);
                         var weakPW = $('<div class="input-field col s12"><label></label></div>').text(err.message);
                         $('#register-pw-error').append(weakPW);
-                    
+
                     } else if (err.code === 'auth/invalid-email') {
+                        count++;
+                        counter(count);
                         var wrongFormat = $('<div class="input-field col s12"><label></label></div>').text(err.message);
                         $('#register-email-error').append(wrongFormat);
+
+                    } else if (err.code === 'auth/too-many-requests') {
+                        count++;
+                        counter(count);
+                        var exceeded = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                        $('#register-pw-error').append(exceeded);
                     }
+
                 });
         });
 
@@ -171,6 +218,8 @@ $(document).ready(function() {
                     // Close modal
                     closeModal();
 
+                    flag = true;
+
                     //var currentGenre = db.ref('users/' + currentUser);
                     db.ref('users/' + userID + '/genre').once('value', function(snap) {
 
@@ -188,15 +237,26 @@ $(document).ready(function() {
                     });
                 })
                 .catch(function(err) {
+
                     if (err.code === 'auth/user-not-found') {
+                        count++;
+                        counter(count);
                         var notFound = $('<div class="input-field col s12"><label></label></div>').text(err.message);
                         $('#login-email-error').append(notFound);
 
                     } else if (err.code == 'auth/wrong-password') {
+                        count++;
+                        counter(count);
                         var wrongPW = $('<div class="input-field col s12"><label></label></div>').text(err.message);
                         $('#login-pw-error').append(wrongPW);
+
+                    } else if (err.code === 'auth/weak-password') {
+                        count++;
+                        counter(count);
+                        var exceeded = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                        $('#login-pw-error').append(exceeded);
                     }
-            });
+                });
         });
 
 
@@ -210,10 +270,30 @@ $(document).ready(function() {
 
             userObj.updatePassword(newPassword).then(function() {
                 // Update successful.
+                clearForms();
+                closeModal();
 
-            }, function(error) {
+            }, function(err) {
                 // An error happened.
+                console.log(err);
 
+                if (err.code === 'auth/wrong-password') {
+                    count++;
+                    var wrongPW = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                    $('#password-pw-error').append(wrongPW);
+
+                } else if (err.code === 'auth/weak-password') {
+                    count++;
+                    counter(count);
+                    var weakPW = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                    $('#password-pw-error').append(weakPW);
+
+                } else if (err.code === 'auth/too-many-requests') {
+                    count++;
+                    counter(count);
+                    var exceeded = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                    $('#profile-pw-error').append(exceeded);
+                }
             });
 
             $('#genre-pref-edit input:checked').each(function() {
@@ -222,8 +302,6 @@ $(document).ready(function() {
             db.ref('/users/' + userID).set({
                 genre: JSON.stringify(userGenre)
             });
-            clearForms();
-            closeModal();
         });
 
         // Clear & close Registration Modal when cancel clicked
