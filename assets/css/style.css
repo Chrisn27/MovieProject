@@ -77,10 +77,7 @@ h5 {
 }
 
 .wrapper {
-	margin-left: 5px;
-	position: relative;
-	top: 20px;
-	left: 45px;
+	margin-left: 10px;
 }
 
 #search-function {
@@ -97,6 +94,35 @@ h5 {
 
 .chrisflix {
 	height: 56px;
+}
+
+.moviePoster {
+	height: 200px;
+}
+
+.wrapper {
+	margin-left: 25px;
+}
+
+.modal-movie-poster {
+	height: 250px;
+}
+
+
+}
+
+@media only screen and (max-width: 640px) {
+
+.chrisflix {
+	height: 56px;
+}
+
+
+#movie-content {
+	position: relative;
+	left: 30px;
+	padding: 20px;
+
 }
 
 }
