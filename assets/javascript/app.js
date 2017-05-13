@@ -18,11 +18,21 @@ $(document).ready(function() {
         // Create a variable to reference the database.
         var db = firebase.database();
         var userGenre = [];
+        var count = 0;
+        var max = 1;
+        var flag = false;
 
         // Display current user created/logged-in (Nav bar)
         function setNav(email) {
+
             // Add current user email to nav bar
-            $('#current').replaceWith('<li><a class="waves-effect waves-light">' + email + '</a></li>');
+            $('#current').replaceWith('<li id="current"><a class="waves-effect waves-light">' + email + '</a></li>');
+        }
+
+        // Display current user created/logged-in (Nav bar)
+        function resetNav() {
+            // Clears user from navbar 
+            $('#current').empty();
         }
 
         // Display current user created/logged-in (Profile form)
@@ -31,81 +41,162 @@ $(document).ready(function() {
             $('#profile-user').empty();
             $('#email-confirm').empty();
 
-            // Add current user email to profile form
-            var currentUser = $('<label for="disabled">Current User</label><br>').text('Profile: ' + email);
 
-            // Append currentUser to Profile placeholder = #profile-user
-            $('#profile-user').append(currentUser);
+            $('#profile-user').replaceWith('<div class="input-field col s12" id="profile-user"><label>' + email + '</label><br><br></div>');
         }
 
-        // Display current user created/logged-in (Nav bar)
-        function resetNav() {
-            // Add current user email to nav bar
-            $('#current').empty();
+        function clearForms() {
+            // Clear all forms when after successfully register or login
+            $('#register-form').find('input:text, input:password').val('');
+            $('#login-form').find('input:text, input:password').val('');
+            $('#profile-form').find('input:text, input:password').val('');
+            $('#register-email-error').empty();
+            $('#register-pw-error').empty();
+            $('#login-email-error').empty();
+            $('#login-pw-error').empty();
+            //$('#genre-pref').find('input:checkbox').prop('checked', false);
+            //document.getElementById('checkbox').click();
         }
 
-        // Display current user created/logged-in (Profile form)
-        function resetProfile() {
-            // Clear last user
-            $('#profile-user').empty();
-            $('#email-confirm').empty();
+        function clearErrors() {
+            $('#register-email-error').empty();
+            $('#register-pw-error').empty();
+            $('#login-email-error').empty();
+            $('#login-pw-error').empty();
         }
 
-        // When Register Submit clicked, store email and password into variables
+        function logoutToggle() {
+            // Replace Sign-In to Sign-Out 
+            $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Log-Out</a></li>');
+            $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Log-Out</a></li>');
+        }
+
+        function loginToggle() {
+            // Replace Sign-In to Sign-Out 
+            $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Login</a></li>');
+            $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Loginn</a></li>');
+        }
+
+        function closeModal() {
+            $('.modal').modal('close');
+        }
+
+        function counter(count) {
+            if (count > max)
+                clearErrors();
+            count = 0;
+        }
+
+        $(document).on('click', '#loginNav', function(event) {
+            console.log('inside loginNav flag and flag is: ' + flag);
+            if(flag) {
+                firebase.auth().signOut();
+                flag = false;
+                loginToggle();
+            }
+        });
+
+        $('#loginDrop').on('click', function(event) {
+            console.log('inside loginNav flag and flag is: ' + flag);
+            if(flag) {
+                firebase.auth().signOut();
+                flag = false;
+            }
+        });
+
+        // Store email and password into variables, upon click
         $('#register-submit').on('click', function(event) {
             event.preventDefault();
 
             var email = $('#email').val().trim();
             var password = $('#password').val().trim();
-            var cpassword = $('#cpassword').val().trim();
 
             // Call firebase auth to set user in Auth db
             firebase.auth().createUserWithEmailAndPassword(email, password)
 
-            // After user in Auth db, use Auth UID and store into Firebase db
+            // Set genre's into Firebase db, if registration success
             .then(function(user) {
+                    // Get current user
+                    var userID = firebase.auth().currentUser.uid;
 
                     $('#genre-pref input:checked').each(function() {
                         userGenre.push($(this).attr('data-genre'));
                     });
-                    db.ref('/users/' + user.uid).set({
-                        id: user.uid,
+                    db.ref('/users/' + userID).set({
+                        id: userID,
                         email: user.email,
                         genre: JSON.stringify(userGenre)
                     });
-                    //console.log(genre);
-
-                    // Change Registration button text after successfully registered
-                    var displaySuccess = 'Successfully Registered';
-                    $('#register-submit').text(displaySuccess);
-
-                    // Clear form when after successfully registered
-                    $('#register-form').find('input:text, input:password').val('');
-
-                    // Clear last user
-                    $('#current').empty();
-
-                    setNav(email);
-                    setUser(email);
 
                     // Send user verification email
-                    var currentUser = firebase.auth().currentUser;
-                    currentUser.sendEmailVerification().then(function() {
-                        // Prompt user that email was sent
-                        var div = $('<br><div>Please check your inbox and verify your email address.</div>');
-                        $('#email-confirm').append(div);
-                    }, function(error) {
-                        // An error happened.
+                    var userObj = firebase.auth().currentUser;
+                    userObj.sendEmailVerification().then(function() {
+
+                            // Replace HTML to Log-Out
+                            logoutToggle();
+
+                            // Prompt user that email was sent
+                            alert('Successfully Registered.  Please check your email and verify your email address.');
+                            // Clear all forms
+                            clearForms();
+                            // Sets current user email on navbar
+                            setNav(email);
+                            // Sets current user email in profile
+                            setProfile(email);
+                            // Close modal
+                            closeModal();
+
+                            flag = true;
+                        })
+                        .catch(function(err) {
+                            console.error(err);
+                            // Display errors related to sending verification email
+                            // PW not match or email format 
+                        })
+
+                    // Retrieve genre from Firebase db and call buildInitialRecommendedResults API function
+                    db.ref('users/' + userID + '/genre').once('value', function(snap) {
+
+                        $(".recommendedResults").empty();
+                        var genrePref = snap.val();
+                        genrePref = JSON.parse(genrePref);
+
+                        for (var i = 0; i < genrePref.length; i++) {
+                            var caps = genrePref[i];
+                            caps = caps.charAt(0).toUpperCase() + caps.slice(1);
+                            genrePref[i] = caps;
+                        }
+
+                        buildInitialRecommendedResults(genrePref);
                     });
                 })
                 .catch(function(err) {
-                    console.error(err);
-                    // .catch(function(err) {
-                    //  var errorCode = err.code;
-                    //  var errorMessage = err.message;
-                    // add error handling for (existing user, pw < 4 and pw comparison)
-                    //  console.log("Data not saved " + errorCode + errorMessage);  
-                })
+                    if (err.code === 'auth/email-already-in-use') {
+                        count++;
+                        counter(count);
+                        var userExists = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                        $('#register-email-error').append(userExists);
+
+                    } else if (err.code === 'auth/weak-password') {
+                        count++;
+                        counter(count);
+                        var weakPW = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                        $('#register-pw-error').append(weakPW);
+
+                    } else if (err.code === 'auth/invalid-email') {
+                        count++;
+                        counter(count);
+                        var wrongFormat = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                        $('#register-email-error').append(wrongFormat);
+
+                    } else if (err.code === 'auth/too-many-requests') {
+                        count++;
+                        counter(count);
+                        var exceeded = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                        $('#register-pw-error').append(exceeded);
+                    }
+
+                });
         });
 
         // When Login Submit clicked, store email and password into variables
@@ -122,35 +213,28 @@ $(document).ready(function() {
                     // Prevent default
                     event.preventDefault();
 
-                    // Clear last user
-                    $('#current').empty();
-
-                    // Clear form when after successfully registered
-                    $('#login-form').find('input:text, input:password').val('');
-
-                    // Replace Sign-In to Sign-Out 
-                    $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Sign-Out</a></li>');
-                    $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Sign-Out</a></li>');
-
-                    setNav(email);
-                    setProfile(email);
-
-                    // Close modal
-                    $('.modal').modal('close');
-
                     // Get current user
-                    var currentUser = firebase.auth().currentUser.uid;
-                    console.log(currentUser);
+                    var userID = firebase.auth().currentUser.uid;
+
+                    // Replace HTML to Log-Out
+                    logoutToggle();
+                    // Clear all forms
+                    clearForms();
+                    // Sets current user email on navbar
+                    setNav(email);
+                    // Sets current user email in profile
+                    setProfile(email);
+                    // Close modal
+                    closeModal();
+
+                    flag = true;
 
                     //var currentGenre = db.ref('users/' + currentUser);
-                    db.ref('users/' + currentUser + '/genre').once('value', function(snap) {
-                        console.log('I fetched a user!', snap.val());
-
+                    db.ref('users/' + userID + '/genre').once('value', function(snap) {
 
                         $(".recommendedResults").empty();
                         var genrePref = snap.val();
                         genrePref = JSON.parse(genrePref);
-                        console.log(genrePref);
 
                         for (var i = 0; i < genrePref.length; i++) {
                             var caps = genrePref[i];
@@ -162,22 +246,70 @@ $(document).ready(function() {
                     });
                 })
                 .catch(function(err) {
-                    console.error(err);
-                })
+
+                    if (err.code === 'auth/user-not-found') {
+                        count++;
+                        counter(count);
+                        var notFound = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                        $('#login-email-error').append(notFound);
+
+                    } else if (err.code == 'auth/wrong-password') {
+                        count++;
+                        counter(count);
+                        var wrongPW = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                        $('#login-pw-error').append(wrongPW);
+
+                    } else if (err.code === 'auth/weak-password') {
+                        count++;
+                        counter(count);
+                        var exceeded = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                        $('#login-pw-error').append(exceeded);
+                    }
+                });
         });
+
 
         $('#profile-save').on('click', function(event) {
             event.preventDefault();
 
-            var user = firebase.auth().currentUser;
+            var userObj = firebase.auth().currentUser;
+            var userID = firebase.auth().currentUser.uid;
             var password = $('#profile-password').val().trim();
             var newPassword = password;
 
-            user.updatePassword(newPassword).then(function() {
+            userObj.updatePassword(newPassword).then(function() {
                 // Update successful.
-                console.log(password);
-            }, function(error) {
+                clearForms();
+                closeModal();
+
+            }, function(err) {
                 // An error happened.
+                console.log(err);
+
+                if (err.code === 'auth/wrong-password') {
+                    count++;
+                    var wrongPW = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                    $('#password-pw-error').append(wrongPW);
+
+                } else if (err.code === 'auth/weak-password') {
+                    count++;
+                    counter(count);
+                    var weakPW = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                    $('#password-pw-error').append(weakPW);
+
+                } else if (err.code === 'auth/too-many-requests') {
+                    count++;
+                    counter(count);
+                    var exceeded = $('<div class="input-field col s12"><label></label></div>').text(err.message);
+                    $('#profile-pw-error').append(exceeded);
+                }
+            });
+
+            $('#genre-pref-edit input:checked').each(function() {
+                userGenre.push($(this).attr('data-genre'));
+            });
+            db.ref('/users/' + userID).set({
+                genre: JSON.stringify(userGenre)
             });
         });
 
@@ -185,30 +317,24 @@ $(document).ready(function() {
         // Reset Register button text 
         $('#register-close').on('click', function(event) {
             event.preventDefault();
-            $('#register-form').find('input:text, input:password').val('');
-            $('.modal').modal('close');
-            var displayRegister = 'Register';
-            $('#register-submit').text(displayRegister);
+            clearForms();
+            closeModal();
         });
 
         // Clear & close Login Modal when cancel clicked
         // Reset Login button text 
         $('#login-close').on('click', function(event) {
             event.preventDefault();
-            $('#login-form').find('input:text, input:password').val('');
-            $('.modal').modal('close');
-            var displayLogin = 'Login';
-            $('#login-submit').text(displayLogin);
+            clearForms();
+            closeModal();
         });
 
         // Clear & close Profile Modal when cancel clicked
         // Reset Save button text 
         $('#profile-cancel').on('click', function(event) {
             event.preventDefault();
-            $('#profile-form').find('input:text, input:password').val('');
-            $('.modal').modal('close');
-            var displaySave = 'Save';
-            $('#login-submit').text(displaySave);
+            clearForms();
+            closeModal();
         });
 
 //--------------------------------------------------------------------
@@ -584,3 +710,4 @@ $(document).ready(function() {
 }) // closes document.ready function
 
 // -----------------------------------------------------------------------------------------------------
+

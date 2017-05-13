@@ -15,20 +15,20 @@
 <body>
     <nav>
         <!-- Navbar, Login, logo and Genre sorter -->
-
-
     <div class="nav-wrapper">
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">        
-            <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
-            <li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Sign In</a></li>
+            <li><a class="waves-effect waves-light" href="#modal-register">Register</a></li>
+            <li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Login</a></li>
             <li><a class="waves-effect waves-light" href="#modal-profile">Profile</a></li>
-            <li id="current"></li>
+            <li id="current">
+                    <a class="waves-effect waves-light"></a>
+                </li>
         </ul>
 
         <ul class="side-nav" id="mobile-demo">
-            <li><a class="waves-effect waves-light" href="#modal-register">Registration</a></li>
-            <li><a class="waves-effect waves-light" id="loginDrop" href="#modal-login">Sign In</a></li>
+            <li><a class="waves-effect waves-light" href="#modal-register">Register</a></li>
+            <li><a class="waves-effect waves-light" id="loginDrop" href="#modal-login">Login</a></li>
             <li><a class="waves-effect waves-light" href="#modal-profile">Profile</a></li>
         </ul>
 
@@ -66,6 +66,7 @@
                 </button>
             </div>
           </form>
+
         </div>
         <!-- Results appended here -->
         <div class="row">
@@ -117,81 +118,66 @@
             </div>
         </div>
         <!-- end of modal row -->
-
-        
-
-    
         <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
         </div>
     </div>
-
     <!-- Modal Register -->
     <div id="modal-register" class="modal">
         <div class="modal-content">
             <div class="row">
                 <form class="col s12" id="register-form">
                     <div class="row">
+                        <div class="alert" id="register-email-error"></div>
                         <div class="input-field col s12">
                             <input id="email" type="text" class="validate">
                             <label for="email">E-Mail</label>
                         </div>
-                    </div>
-                    <div class="row">
+                        <div class="alert" id="register-pw-error"></div>
                         <div class="input-field col s12">
                             <input id="password" type="password" class="validate">
                             <label for="password">Password</label>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="cpassword" type="password" class="validate">
-                            <label for="cpassword">Confirm Password</label>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="input-field col s12" id="genre-pref">
                             <h5>Preferences</h5>
                             <p>
-                                <input type="checkbox" id="pref-action" data-genre="action" />
-                                <label for="pref-action">Action</label>
+                                <input type="checkbox" id="register-action" data-genre="action" />
+                                <label for="register-action">Action</label>
                             </p>
                             <p>
-                                <input type="checkbox" id="pref-animated" data-genre="animated" />
-                                <label for="pref-animated">Animated</label>
+                                <input type="checkbox" id="register-animated" data-genre="animation" />
+                                <label for="register-animated">Animated</label>
                             </p>
                             <p>
-                                <input type="checkbox" id="pref-comedy" data-genre="comedy" />
-                                <label for="pref-comedy">Comedy</label>
+                                <input type="checkbox" id="register-comedy" data-genre="comedy" />
+                                <label for="register-comedy">Comedy</label>
                             </p>
                             <p>
-                                <input type="checkbox" id="pref-drama" data-genre="drama" />
-                                <label for="pref-drama">Drama</label>
+                                <input type="checkbox" id="register-drama" data-genre="drama" />
+                                <label for="register-drama">Drama</label>
                             </p>
                             <p>
-                                <input type="checkbox" id="pref-fantasy" data-genre="fantasy" />
-                                <label for="pref-fantasy">Fantasy</label>
+                                <input type="checkbox" id="register-fantasy" data-genre="fantasy" />
+                                <label for="register-fantasy">Fantasy</label>
                             </p>
                             <p>
-                                <input type="checkbox" id="pref-horror" data-genre="horror" />
-                                <label for="pref-horror">Horror</label>
+                                <input type="checkbox" id="register-horror" data-genre="horror" />
+                                <label for="register-horror">Horror</label>
                             </p>
                             <p>
-                                <input type="checkbox" id="pref-romance" data-genre="romance" />
-                                <label for="pref-romance">Romance</label>
+                                <input type="checkbox" id="register-romance" data-genre="romance" />
+                                <label for="register-romance">Romance</label>
                             </p>
                             <p>
-                                <input type="checkbox" id="pref-scifi" data-genre="scifi" />
-                                <label for="pref-scifi">Sci-Fi</label>
+                                <input type="checkbox" id="register-scifi" data-genre="scifi" />
+                                <label for="register-scifi">Sci-Fi</label>
                             </p>
                             <br>
                         </div>
                     </div>
                     <button class="waves-effect waves-light btn black" type="submit" id="register-submit">Register</button>
-                    <button class="waves-effect waves-light btn black" type="submit" id="register-close">Close</button>
-
+                    <button class="waves-effect waves-light btn black" type="submit" id="register-close">Cancel</button>
                     <div id="email-confirm"></div>
-
                 </form>
             </div>
         </div>
@@ -202,21 +188,19 @@
             <div class="row">
                 <form class="col s12" id="login-form">
                     <div class="row">
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input id="login-email" type="text" class="validate">
-                                <label for="email">E-Mail</label>
-                            </div>
+                        <div class="alert" id="login-email-error"></div>
+                        <div class="input-field col s12">
+                            <input id="login-email" type="text" class="validate">
+                            <label for="email">E-Mail</label>
                         </div>
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input id="login-password" type="password" class="validate">
-                                <label for="password">Password</label>
-                            </div>
+                        <div class="alert" id="login-pw-error"></div>
+                        <div class="input-field col s12">
+                            <input id="login-password" type="password" class="validate">
+                            <label for="password">Password</label>
                         </div>
                     </div>
                     <button class="waves-effect waves-light btn black" type="submit" id="login-submit">Login</button>
-                    <button class="waves-effect waves-light btn black" type="submit" id="login-close">Close</button>
+                    <button class="waves-effect waves-light btn black" type="submit" id="login-close">Cancel</button>
                 </form>
             </div>
         </div>
@@ -227,52 +211,48 @@
             <div class="row">
                 <form class="col s12" id="profile-form">
                     <div class="row">
-                        <!-- <div class="row"> -->
-                            <div class="input-field col s12" id="profile-user">
-                            </div>
-                        <!-- </div> -->
-                        <!-- <div class="row"> -->
-                            <div class="input-field col s12">
-                                <input id="profile-password" type="password" class="validate">
-                                <label for="password">Edit Password</label>
-                            </div>
-                        <!-- </div> -->
-                        
+                        <div class="input-field col s12" id="profile-user">
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="profile-password" type="password" class="validate">
+                            <label for="password">Edit Password</label>
+                        </div>
+                        <div class="alert" id="profile-pw-error"></div>
                         <div class="input-field col s12" id="genre-pref-edit">
                             <h5>Edit Preferences</h5>
-                                <p>
-                                    <input type="checkbox" id="Action" />
-                                    <label for="Action">Action</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Animation" />
-                                    <label for="Animation">Animation</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Comedy" />
-                                    <label for="Comedy">Comedy</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Drama" />
-                                    <label for="Drama">Drama</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Fantasy" />
-                                    <label for="Fantasy">Fantasy</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Horror" />
-                                    <label for="Horror">Horror</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Romance" />
-                                    <label for="Romance">Romance</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="Science-Fiction" />
-                                    <label for="Science-Fiction">Sci-Fi</label>
-                                </p>
-                                <br>
+                            <p>
+                                <input type="checkbox" id="action" data-genre="action" />
+                                <label for="action">Action</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="animation" data-genre="animation" />
+                                <label for="animation">Animation</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="comedy" data-genre="comedy" />
+                                <label for="comedy">Comedy</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="drama" data-genre="drama" />
+                                <label for="drama">Drama</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="fantasy" data-genre="fantasy" />
+                                <label for="fantasy">Fantasy</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="horror" data-genre="horror" />
+                                <label for="horror">Horror</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="romance" data-genre="romance" />
+                                <label for="romance">Romance</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" id="science-fiction" data-genre="science-fiction" />
+                                <label for="science-fiction">Sci-Fi</label>
+                            </p>
+                            <br>
                         </div>
                     </div>
                     <button class="waves-effect waves-light btn black" type="submit" id="profile-save">Save</button>
