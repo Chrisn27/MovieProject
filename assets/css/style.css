@@ -96,4 +96,19 @@ h5 {
 	height: 56px;
 }
 
+.modal-movie-poster {
+	height: 200px;
+	margin: 0px;
+}
+
+
+}
+
+@media only screen and (max-width: 640px) {
+
+.chrisflix {
+	height: 56px;
+}
+
+
 }
