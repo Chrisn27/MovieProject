@@ -20,145 +20,106 @@
 	color: #616161;
 }
 
-.alert {
-	color: red;
-}
-
 .chrisflix {
-	height: 64px;
+    height: 64px;
 }
-
 nav {
-	background-color: red;
+    background-color: red;
 }
-
 .linkLogo {
-	height: 50px;
+    height: 50px;
 }
-
 .movieMenuDiv {
-	float: left;
-	margin: 5px;
+    float: left;
+    margin: 5px;
 }
-
 .moviePoster {
-	height: 350px;
+    height: 350px;
 }
-
 .movie-info {
-	position: relative;
-	bottom: 146px;
+    position: relative;
+    bottom: 146px;
 }
-
 .movie-info {
-	position: relative;
-	bottom: 146px;
+    position: relative;
+    bottom: 146px;
 }
-
-
 .modal-movie-poster {
-	height: 300px;
-	margin: 0px;
+    height: 300px;
+    margin: 0px;
 }
-
 .movie-content {
-	padding: 5px;
+    padding: 5px;
 }
-
 .movie-info {
-	position: relative;
-	bottom: 170px;
-	z-index: 1;
-	font-weight: bold;
-	color: white;
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-	background-color:rgba(0,0,0,0.7);
-	z-index: 1;
-	padding: 10px;
-	width: 210px;
-	visibility: hidden
+    position: relative;
+    bottom: 170px;
+    z-index: 1;
+    font-weight: bold;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    background-color:rgba(0,0,0,0.7);
+    z-index: 1;
+    padding: 10px;
+    width: 210px;
+    visibility: hidden
 }
-
 .movie-sources {
-	position: relative;
-	bottom: 0px;
-	display: block;
+    position: relative;
+    bottom: 0px;
+    display: block;
 }
-
 .movieMenuDiv:hover .movie-info {
-	visibility: visible;
+    visibility: visible;
 }
-
 h5 {
-	clear: both;
+    clear: both;
 }
-
 .searchbtn {
-	margin-top: 10px;
+    margin-top: 10px;
 }
-
-
 .video-container {
-	margin: 0 auto;
+    margin: 0 auto;
 }
-
 .wrapper {
-	margin-left: 10px;
+    margin-left: 10px;
 }
-
 #search-function {
-	position: relative;
-	top: 20px;
+    position: relative;
+    top: 20px;
 }
-
-
 .video-container {
-	position: relative;
-	left: 10%;
+    position: relative;
+    left: 10%;
     padding-bottom: 56.25%;
     padding-top: 35px;
     height: 0;
     overflow: hidden;
 }
-
 iframe {
-	width: 80%;
+    width: 80%;
 }
-
-
 @media only screen and (max-width: 768px) {
-
 .chrisflix {
-	height: 56px;
+    height: 56px;
 }
-
 .moviePoster {
-	height: 200px;
+    height: 200px;
 }
-
 .wrapper {
-	margin-left: 20px;
+    margin-left: 20px;
 }
-
 .modal-movie-poster {
-	height: 250px;
+    height: 250px;
 }
-
-
 }
-
 @media only screen and (max-width: 640px) {
-
 .chrisflix {
-	height: 56px;
+    height: 56px;
 }
-
-
 #movie-content {
-	position: relative;
-	left: 30px;
-	padding: 20px;
-
+    position: relative;
+    left: 30px;
+    padding: 20px;
 }
-
 }
