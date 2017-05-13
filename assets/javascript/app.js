@@ -258,6 +258,7 @@ $(document).ready(function() {
 	var limit = "10";
 	var castLimit = "10";
 	var userGenrePref = [];
+    var guideboxAPIkey = "33e1803f4a9e5bd978af9e30a5e9d1eaae120076"; 
 
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
@@ -268,7 +269,7 @@ $(document).ready(function() {
 		        url: url,
 		        method: 'GET',
 		        data: {
-		        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+		        	"api_key": guideboxAPIkey,
 		          	"limit": limit,
 		          	// "offset" : 250,
 		        }
@@ -299,7 +300,7 @@ $(document).ready(function() {
 						        url: urlId,
 						        method: 'GET',
 						        data: {
-						        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+						        	"api_key": guideboxAPIkey,
 						        }
 					        }).done(function(result) {
 						          console.log(result);
@@ -609,7 +610,7 @@ $(document).ready(function() {
 		        url: url,
 		        method: 'GET',
 		        data: {
-		        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+		        	"api_key": guideboxAPIkey,
 		          	"type": "movie",
 		          	"field": "title",
 		          	"query": searchTerm,
@@ -630,7 +631,7 @@ $(document).ready(function() {
 		        url: url,
 		        method: 'GET',
 		        data: {
-		        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+		        	"api_key": guideboxAPIkey,
 		          	"limit": limit,
 		          	// "offset" : 250,
 		        }
@@ -656,7 +657,7 @@ $(document).ready(function() {
 		        url: url,
 		        method: 'GET',
 		        data: {
-		        	"api_key": "69036535aa6cd6d9b5932b7ee76407ea77cabb6d",
+		        	"api_key": guideboxAPIkey,
 		          	"limit": limit,
 		          	// "offset" : 250,
 		        }
