@@ -90,6 +90,17 @@ h5 {
 	left: -50px;
 }
 
+
+.video-container {
+	position: relative;
+	left: 15%;
+}
+
+iframe {
+	width: 80%;
+}
+
+
 @media only screen and (max-width: 768px) {
 
 .chrisflix {
