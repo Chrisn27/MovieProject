@@ -3,49 +3,6 @@ $(document).ready(function() {
         $('.modal').modal('close');
         $(".button-collapse").sideNav();
 
-        //   $(".validate").validate({
-        //       rules: {
-        //           first_name: {
-        //               required: true
-        //           },
-        //           last_name: {
-        //               required: true
-        //           },
-        //           password: {
-        // 		required: true,
-        // 		minlength: 5
-        // 	},
-        // 	cpassword: {
-        // 		required: true,
-        // 		minlength: 5,
-        // 		equalTo: "#password"
-        // 	},
-        //           email: {
-        // 		required: true,
-        //               email:true
-        // 	},
-        // },
-        //       //For custom messages
-        //       messages: {
-        //           first_name:{
-        //               required: "Enter a first name"
-        //           },
-        //           last_name:{
-        //           	required: "Enter a last name",
-        //               minlength: "Enter at least 5 characters"
-        //           },
-        //        errorElement : 'div',
-        //        errorPlacement: function(error, element) {
-        //          var placement = $(element).data('error');
-        //          if (placement) {
-        //            $(placement).append(error)
-        //          } else {
-        //            error.insertAfter(element);
-        //          }
-        //       	}
-        //      }
-        //   	});
-
         // -----------------------------------------------------------------------------------------------------
         // Initialize Firebase
         var config = {
@@ -63,29 +20,35 @@ $(document).ready(function() {
         var userGenre = [];
 
         // Display current user created/logged-in (Nav bar)
-        function setUser(email) {
+        function setNav(email) {
             // Add current user email to nav bar
-            var currentUser = $('<li id="current"><a class="waves-effect waves-light">').text(email);
-
-            // Style user email in color black
-            $(currentUser).css({
-                color: 'black',
-            });
-
-            // Append currentUser to navbar placeholder = #current
-            $('#current').append(currentUser);
+            $('#current').replaceWith('<li><a class="waves-effect waves-light">' + email + '</a></li>');
         }
 
         // Display current user created/logged-in (Profile form)
         function setProfile(email) {
-			// Clear last user
-			$('#profile-user').empty();
-			
+            // Clear last user
+            $('#profile-user').empty();
+            $('#email-confirm').empty();
+
             // Add current user email to profile form
             var currentUser = $('<label for="disabled">Current User</label><br>').text('Profile: ' + email);
 
             // Append currentUser to Profile placeholder = #profile-user
             $('#profile-user').append(currentUser);
+        }
+
+        // Display current user created/logged-in (Nav bar)
+        function resetNav() {
+            // Add current user email to nav bar
+            $('#current').empty();
+        }
+
+        // Display current user created/logged-in (Profile form)
+        function resetProfile() {
+            // Clear last user
+            $('#profile-user').empty();
+            $('#email-confirm').empty();
         }
 
         // When Register Submit clicked, store email and password into variables
@@ -121,31 +84,27 @@ $(document).ready(function() {
 
                     // Clear last user
                     $('#current').empty();
-					
-					// Clear checked preferences
-					//$.attr('data-genre').find('input:checkbox').val('');
-					//$.attr('data-genre').find('input:checkbox').empty();
 
-                    setProfile(email);
+                    setNav(email);
                     setUser(email);
-					
-					// Send user verification email
-					var currentUser = firebase.auth().currentUser;
-					currentUser.sendEmailVerification().then(function() {
-						// Prompt user that email was sent
-						var div = $('<br><div>Please check your inbox and verify your email address.</div>');
-						$('#email-confirm').append(div);
-					}, function(error) {
-						// An error happened.
-					});
+
+                    // Send user verification email
+                    var currentUser = firebase.auth().currentUser;
+                    currentUser.sendEmailVerification().then(function() {
+                        // Prompt user that email was sent
+                        var div = $('<br><div>Please check your inbox and verify your email address.</div>');
+                        $('#email-confirm').append(div);
+                    }, function(error) {
+                        // An error happened.
+                    });
                 })
                 .catch(function(err) {
                     console.error(err);
                     // .catch(function(err) {
-                    // 	var errorCode = err.code;
-                    //	var errorMessage = err.message;
+                    //  var errorCode = err.code;
+                    //  var errorMessage = err.message;
                     // add error handling for (existing user, pw < 4 and pw comparison)
-                    // 	console.log("Data not saved " + errorCode + errorMessage);	
+                    //  console.log("Data not saved " + errorCode + errorMessage);  
                 })
         });
 
@@ -166,17 +125,20 @@ $(document).ready(function() {
                     // Clear last user
                     $('#current').empty();
 
-                    // Change Login button text after successfully logged-in
-                    var displaySuccess = 'Successfully Logged-In';
-                    $('#login-submit').text(displaySuccess);
-					
-					// Clear form when after successfully registered
+                    // Clear form when after successfully registered
                     $('#login-form').find('input:text, input:password').val('');
-					
-                    setProfile(email);
-                    setUser(email);
 
-                    // get user genre
+                    // Replace Sign-In to Sign-Out 
+                    $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Sign-Out</a></li>');
+                    $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Sign-Out</a></li>');
+
+                    setNav(email);
+                    setProfile(email);
+
+                    // Close modal
+                    $('.modal').modal('close');
+
+                    // Get current user
                     var currentUser = firebase.auth().currentUser.uid;
                     console.log(currentUser);
 
@@ -190,17 +152,14 @@ $(document).ready(function() {
                         genrePref = JSON.parse(genrePref);
                         console.log(genrePref);
 
-                        for (var i=0; i<genrePref.length; i++) {
+                        for (var i = 0; i < genrePref.length; i++) {
                             var caps = genrePref[i];
                             caps = caps.charAt(0).toUpperCase() + caps.slice(1);
                             genrePref[i] = caps;
                         }
 
-                        console.log(genrePref);
-
                         buildInitialRecommendedResults(genrePref);
                     });
-
                 })
                 .catch(function(err) {
                     console.error(err);
@@ -252,7 +211,6 @@ $(document).ready(function() {
             $('#login-submit').text(displaySave);
         });
 
-//--------------------------------------------------------------------
 
 	// global variables
 	var limit = "10";
@@ -336,9 +294,6 @@ $(document).ready(function() {
 						          	}
 
 							      var tags = result.tags;
-
-								  							      			  
-							      
 
 						          console.log("description: " + description);
 						          console.log("genre: " + JSON.stringify(genre));
@@ -676,3 +631,4 @@ $(document).ready(function() {
 }) // closes document.ready function
 
 // -----------------------------------------------------------------------------------------------------
+
