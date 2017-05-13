@@ -517,6 +517,7 @@ $(document).ready(function() {
     $(".searchbtn").on("click", function(){
 
             event.preventDefault();
+            $("#resultsLabel").text("Results");
             var loadingGif = $("<img>").attr("src", "assets/images/loading.gif");
             $(".searchResults").empty();
             $(".searchResults").append(loadingGif);
@@ -550,9 +551,10 @@ $(document).ready(function() {
 
     // populates results and filters movies by genre before appending to html
     $(".genreDropdownItem").on("click", function(){
-            var loadingGif = $("<img>").attr("src", "assets/images/loading.gif");
-            $(".searchResults").empty();
-            $(".searchResults").append(loadingGif);
+        $("#resultsLabel").text("Results");
+        var loadingGif = $("<img>").attr("src", "assets/images/loading.gif");
+        $(".searchResults").empty();
+        $(".searchResults").append(loadingGif);
 
         var genreInput = [];
         genreInput.push($(this).text());
