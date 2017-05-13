@@ -1,8 +1,3 @@
-#currentUser {
-	color:'black';
-	margin: 10px;
-}
-
 .chrisflix {
 	height: 64px;
 }
@@ -24,11 +19,16 @@ nav {
 	height: 350px;
 }
 
+.movie-info {
+	position: relative;
+	bottom: 146px;
+}
 
 .movie-info {
 	position: relative;
 	bottom: 146px;
 }
+
 
 .modal-movie-poster {
 	height: 300px;
@@ -37,8 +37,6 @@ nav {
 
 .movie-content {
 	padding: 5px;
-	/*position: relative;
-	left: 100px;*/
 }
 
 .movie-info {
@@ -48,7 +46,6 @@ nav {
 	font-weight: bold;
 	color: white;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-	background-color:rgba(255,255,255,0.3);
 	background-color:rgba(0,0,0,0.7);
 	z-index: 1;
 	padding: 10px;
@@ -80,14 +77,20 @@ h5 {
 }
 
 .wrapper {
-	margin-left: 10px;
+	margin-left: 5px;
 	position: relative;
 	top: 20px;
+	left: 45px;
 }
 
 #search-function {
 	position: relative;
 	top: 20px;
+}
+
+#image-container{
+	position: relative;
+	left: -50px;
 }
 
 @media only screen and (max-width: 768px) {
