@@ -65,11 +65,16 @@ $(document).ready(function() {
             $('#login-pw-error').empty();
         }
 
-        function loginToggle() {
+        function logoutToggle() {
             // Replace Sign-In to Sign-Out 
             $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Log-Out</a></li>');
             $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Log-Out</a></li>');
+        }
 
+        function loginToggle() {
+            // Replace Sign-In to Sign-Out 
+            $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Login</a></li>');
+            $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Loginn</a></li>');
         }
 
         function closeModal() {
@@ -82,11 +87,12 @@ $(document).ready(function() {
             count = 0;
         }
 
-        $('#loginNav').on('click', function(event) {
+        $(document).on('click', '#loginNav', function(event) {
             console.log('inside loginNav flag and flag is: ' + flag);
             if(flag) {
                 firebase.auth().signOut();
                 flag = false;
+                loginToggle();
             }
         });
 
@@ -125,6 +131,9 @@ $(document).ready(function() {
                     // Send user verification email
                     var userObj = firebase.auth().currentUser;
                     userObj.sendEmailVerification().then(function() {
+
+                            // Replace HTML to Log-Out
+                            logoutToggle();
 
                             // Prompt user that email was sent
                             alert('Successfully Registered.  Please check your email and verify your email address.');
@@ -208,7 +217,7 @@ $(document).ready(function() {
                     var userID = firebase.auth().currentUser.uid;
 
                     // Replace HTML to Log-Out
-                    loginToggle();
+                    logoutToggle();
                     // Clear all forms
                     clearForms();
                     // Sets current user email on navbar
@@ -331,8 +340,8 @@ $(document).ready(function() {
         // ------------------------------------------------------------------------------------------------
 
         // global variables
-        var limit = "1";
-        var castLimit = "1";
+        var limit = "10";
+        var castLimit = "10";
         var userGenrePref = [];
         var guideboxAPIkey = "33e1803f4a9e5bd978af9e30a5e9d1eaae120076";
 
