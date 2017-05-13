@@ -103,10 +103,7 @@ h5 {
 }
 
 .wrapper {
-	margin-left: 5px;
-	position: relative;
-	top: 20px;
-	left: 45px;
+	margin-left: 10px;
 }
 
 #search-function {
@@ -114,15 +111,54 @@ h5 {
 	top: 20px;
 }
 
-#image-container{
+
+.video-container {
 	position: relative;
-	left: -50px;
+	left: 10%;
+    padding-bottom: 56.25%;
+    padding-top: 35px;
+    height: 0;
+    overflow: hidden;
 }
+
+iframe {
+	width: 80%;
+}
+
 
 @media only screen and (max-width: 768px) {
 
 .chrisflix {
 	height: 56px;
+}
+
+.moviePoster {
+	height: 200px;
+}
+
+.wrapper {
+	margin-left: 20px;
+}
+
+.modal-movie-poster {
+	height: 250px;
+}
+
+
+}
+
+@media only screen and (max-width: 640px) {
+
+.chrisflix {
+	height: 56px;
+}
+
+
+#movie-content {
+	position: relative;
+	left: 30px;
+	padding: 20px;
+
 }
 
 }
