@@ -96,9 +96,16 @@ h5 {
 	height: 56px;
 }
 
-.modal-movie-poster {
+.moviePoster {
 	height: 200px;
-	margin: 0px;
+}
+
+.wrapper {
+	margin-left: 25px;
+}
+
+.modal-movie-poster {
+	height: 250px;
 }
 
 
@@ -110,5 +117,12 @@ h5 {
 	height: 56px;
 }
 
+
+#movie-content {
+	position: relative;
+	left: 30px;
+	padding: 20px;
+
+}
 
 }
