@@ -40,8 +40,6 @@ $(document).ready(function() {
             // Clear last user
             $('#profile-user').empty();
             $('#email-confirm').empty();
-
-
             $('#profile-user').replaceWith('<div class="input-field col s12" id="profile-user"><label>' + email + '</label><br><br></div>');
         }
 
@@ -66,15 +64,16 @@ $(document).ready(function() {
         }
 
         function logoutToggle() {
-            // Replace Sign-In to Sign-Out 
-            $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Log-Out</a></li>');
-            $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Log-Out</a></li>');
+            // Replace Login to Log-Out 
+            $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav">Log-Out</a></li>');
+            $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav">Log-Out</a></li>');
         }
 
         function loginToggle() {
-            // Replace Sign-In to Sign-Out 
+            // Replace Log-Out to Login
             $('#loginNav').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Login</a></li>');
-            $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Loginn</a></li>');
+            $('#loginDrop').replaceWith('<li><a class="waves-effect waves-light" id="loginNav" href="#modal-login">Login</a></li>');
+            resetNav();
         }
 
         function closeModal() {
@@ -93,6 +92,7 @@ $(document).ready(function() {
                 firebase.auth().signOut();
                 flag = false;
                 loginToggle();
+                closeModal();
             }
         });
 
@@ -340,8 +340,8 @@ $(document).ready(function() {
 //--------------------------------------------------------------------
 
     // global variables
-    var limit = "10";
-    var castLimit = "10";
+    var limit = "1";
+    var castLimit = "1";
     var userGenrePref = [];
     var guideboxAPIkey = "33e1803f4a9e5bd978af9e30a5e9d1eaae120076"; 
 
